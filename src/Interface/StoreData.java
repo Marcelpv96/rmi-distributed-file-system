@@ -4,15 +4,19 @@ import Client.ObjectContent;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 /**
  * Created by arnau on 11/11/2017.
  */
 public interface StoreData extends Remote {
 
-    public Long storeObject(ObjectContent obj) throws RemoteException;
-    public ObjectContent getObject(String title) throws  RemoteException;
-    public int getSize() throws RemoteException;
-    public boolean isEmpty() throws RemoteException;
+    Long storeObject(ObjectContent obj) throws RemoteException;
+    ObjectContent getObject(String title) throws  RemoteException;
+    int getSize() throws RemoteException;
+    boolean isEmpty() throws RemoteException;
+
+    ArrayList<String> getCategoryFilter(String category) throws RemoteException;
+    void addToCategoryFilter(String cat, String title) throws RemoteException;
 
 }

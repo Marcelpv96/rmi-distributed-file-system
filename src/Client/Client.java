@@ -25,14 +25,29 @@ public class Client {
             StoreData storage = (StoreData) Naming.lookup(RMI_STORE);
             System.out.println("Client connected to "+ RMI_STORE);
 
-
             ObjectContent obj = new ObjectContent("Star Wars 2", 162, "Action");
+            ObjectContent obj2 = new ObjectContent("Kek Lords", 90, "Action");
+
             Long key = storage.storeObject(obj);
-            System.out.println("Debug kekeke");
-            ObjectContent obj2 = storage.getObject("Star Wars 2");
-            System.out.println(obj2.getTitle());
-            System.out.println(obj2.getCategory());
-            System.out.println(obj2.getDuration());
+            Long key2 = storage.storeObject(obj2);
+
+            ObjectContent recover = storage.getObject("Star Wars 2");
+            ObjectContent recover2 = storage.getObject("Kek Lords");
+
+            System.out.println(recover.getTitle());
+            System.out.println(recover.getCategory());
+            System.out.println(recover.getDuration());
+
+            System.out.println(recover2.getTitle());
+            System.out.println(recover2.getCategory());
+            System.out.println(recover2.getDuration());
+
+            System.out.println(storage.getCategoryFilter("Action"));
+            ObjectContent recoveryFromList = storage.getObject(storage.getCategoryFilter("Action").get(0));
+
+            System.out.println(recoveryFromList.getTitle());
+            System.out.println(recoveryFromList.getCategory());
+            System.out.println(recoveryFromList.getDuration());
 
 
         } catch (RemoteException e) {

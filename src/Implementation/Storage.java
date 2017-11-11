@@ -7,7 +7,9 @@ import java.io.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
 import static javafx.scene.input.KeyCode.L;
 
@@ -17,6 +19,7 @@ import static javafx.scene.input.KeyCode.L;
 public class Storage extends UnicastRemoteObject implements StoreData {
 
     Map<String, Long> storedData = new HashMap<String, Long>();
+    Map<String, ArrayList<String>> categoryFilter = new HashMap<String, ArrayList<String>>();
 
     public Storage() throws RemoteException {
         super();
@@ -32,6 +35,7 @@ public class Storage extends UnicastRemoteObject implements StoreData {
             try {
                 serial = System.currentTimeMillis();
                 storedData.put(obj.getTitle(), serial);
+                addToCategoryFilter(obj.getCategory(), obj.getTitle());
                 new File(serial.toString()).mkdirs();
 
                 FileOutputStream f = new FileOutputStream(new File(serial.toString() + "/" + serial + "out.txt"));
@@ -79,7 +83,7 @@ public class Storage extends UnicastRemoteObject implements StoreData {
 
     }
 
-        @Override
+    @Override
     public int getSize() throws RemoteException {
         return storedData.size();
     }
@@ -88,4 +92,26 @@ public class Storage extends UnicastRemoteObject implements StoreData {
     public boolean isEmpty() throws RemoteException {
         return storedData.isEmpty();
     }
+
+    @Override
+    public ArrayList<String> getCategoryFilter(String category) {
+        ArrayList<String> itemsList = categoryFilter.get(category);
+        return itemsList;
+    }
+
+    @Override
+    public void addToCategoryFilter(String category, String title) {
+        ArrayList<String> itemsList = categoryFilter.get(category);
+
+        // if list does not exist create it
+        if(itemsList == null) {
+            itemsList = new ArrayList<String>();
+            itemsList.add(title);
+            categoryFilter.put(category, itemsList);
+        } else {
+            // add if item is not already in list
+            if(!itemsList.contains(title)) itemsList.add(title);
+        }
+    }
+
 }
