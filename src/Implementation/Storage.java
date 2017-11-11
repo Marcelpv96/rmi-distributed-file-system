@@ -1,56 +1,85 @@
 package Implementation;
 
+import Client.ObjectContent;
 import Interface.StoreData;
-import sun.misc.IOUtils;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+import java.io.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import static javafx.scene.input.KeyCode.L;
 
 /**
  * Created by arnau on 11/11/2017.
  */
 public class Storage extends UnicastRemoteObject implements StoreData {
 
-    ArrayList<String> storedData = new ArrayList<String>();
-    Map<Long, String> myMap = new HashMap<Long, String>();
-
+    Map<String, Long> storedData = new HashMap<String, Long>();
 
     public Storage() throws RemoteException {
         super();
     }
 
+    // TODO create handler before storing object
     @Override
-    public Long storeData(String data) throws RemoteException {
+    public Long storeObject(ObjectContent obj) throws RemoteException {
+        //Initialized so try/catch doesn't kek
+        Long serial = 0L;
 
-        Long serial_key = System.currentTimeMillis();
-        myMap.put(serial_key, data);
+        if (!storedData.containsKey(obj.getTitle())) {
+            try {
+                serial = System.currentTimeMillis();
+                storedData.put(obj.getTitle(), serial);
+                new File(serial.toString()).mkdirs();
 
-        try{
-            // Create file
-            new File(serial_key.toString()).mkdirs();
-            FileWriter fstream = new FileWriter(serial_key.toString()+"/" + serial_key + "out.txt");
-            BufferedWriter out = new BufferedWriter(fstream);
-            out.write(data);
-            //Close the output stream
-            out.close();
-        }catch (Exception e){//Catch exception if any
-            System.err.println("Error: " + e.getMessage());
+                FileOutputStream f = new FileOutputStream(new File(serial.toString() + "/" + serial + "out.txt"));
+                ObjectOutputStream o = new ObjectOutputStream(f);
+
+                o.writeObject(obj);
+                o.close();
+                f.close();
+
+            } catch (Exception e) {//Catch exception if any
+                System.err.println("Error: " + e.getMessage());
+            }
         }
-        return serial_key;
+        return storedData.get(obj.getTitle());
     }
 
     @Override
-    public String getData(Long serial_key) throws RemoteException{
-        return myMap.get(serial_key);
+    public ObjectContent getObject(String title) throws RemoteException {
+
+        ObjectContent object = new ObjectContent();
+
+        try {
+            Long serial = storedData.get(title);
+            System.out.println(serial);
+            System.out.println(title);
+
+            FileInputStream fi = new FileInputStream(new File(serial.toString() + "/" + serial + "out.txt"));
+            ObjectInputStream oi = new ObjectInputStream(fi);
+
+            // Read objects
+           object = (ObjectContent) oi.readObject();
+
+            oi.close();
+            fi.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return object;
+
     }
 
-    @Override
+        @Override
     public int getSize() throws RemoteException {
         return storedData.size();
     }

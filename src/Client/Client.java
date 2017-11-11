@@ -18,7 +18,6 @@ public class Client {
     // TODO Filter by categories, List<>
     // storage.getListByCategory(category)
 
-    ObjectContent obj = new ObjectContent("Star Wars", 162, "Action");
 
     public static void main(String[] args) {
         try {
@@ -26,8 +25,15 @@ public class Client {
             StoreData storage = (StoreData) Naming.lookup(RMI_STORE);
             System.out.println("Client connected to "+ RMI_STORE);
 
-            Long key = storage.storeData("Hello");
-            System.out.println(storage.getData(key) + key);
+
+            ObjectContent obj = new ObjectContent("Star Wars 2", 162, "Action");
+            Long key = storage.storeObject(obj);
+            System.out.println("Debug kekeke");
+            ObjectContent obj2 = storage.getObject("Star Wars 2");
+            System.out.println(obj2.getTitle());
+            System.out.println(obj2.getCategory());
+            System.out.println(obj2.getDuration());
+
 
         } catch (RemoteException e) {
             e.printStackTrace();

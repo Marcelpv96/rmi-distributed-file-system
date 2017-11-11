@@ -13,12 +13,40 @@ public class ObjectContent implements Serializable {
     private int duration;
     private String category;
 
-    ObjectContent() {
+    public ObjectContent() {
     };
 
-    ObjectContent(String title, int duration, String category) {
+    public ObjectContent(String title, int duration, String category) {
         this.title = title;
         this.duration = duration;
+        this.category = category;
+    }
+
+    protected long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
         this.category = category;
     }
 

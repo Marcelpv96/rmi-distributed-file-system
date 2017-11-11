@@ -1,5 +1,7 @@
 package Interface;
 
+import Client.ObjectContent;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -8,8 +10,8 @@ import java.rmi.RemoteException;
  */
 public interface StoreData extends Remote {
 
-    public Long storeData(String data) throws RemoteException;
-    public String getData(Long key) throws  RemoteException;
+    public Long storeObject(ObjectContent obj) throws RemoteException;
+    public ObjectContent getObject(String title) throws  RemoteException;
     public int getSize() throws RemoteException;
     public boolean isEmpty() throws RemoteException;
 
