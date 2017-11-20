@@ -28,8 +28,8 @@ public class Client {
             ObjectContent obj = new ObjectContent("Star Wars 2", 162, "Action");
             ObjectContent obj2 = new ObjectContent("Kek Lords", 90, "Action");
 
-            Long key = storage.storeObject(obj);
-            Long key2 = storage.storeObject(obj2);
+            //Long key = storage.storeObject(obj);
+            //Long key2 = storage.storeObject(obj2);
 
             ObjectContent recover = storage.getObject("Star Wars 2");
             ObjectContent recover2 = storage.getObject("Kek Lords");

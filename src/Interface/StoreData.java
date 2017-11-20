@@ -2,6 +2,7 @@ package Interface;
 
 import Client.ObjectContent;
 
+import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -17,6 +18,6 @@ public interface StoreData extends Remote {
     boolean isEmpty() throws RemoteException;
 
     ArrayList<String> getCategoryFilter(String category) throws RemoteException;
-    void addToCategoryFilter(String cat, String title) throws RemoteException;
+    void addToCategoryFilter(String cat, String title) throws IOException;
 
 }

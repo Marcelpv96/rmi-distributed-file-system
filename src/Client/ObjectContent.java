@@ -50,6 +50,8 @@ public class ObjectContent implements Serializable {
         this.category = category;
     }
 
+
+
     @Override
     public String toString() {
         return "Title:" + title + "\nDuration: " + duration + "\nCategory: " + category;

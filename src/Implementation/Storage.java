@@ -6,12 +6,9 @@ import Interface.StoreData;
 import java.io.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.ArrayList;
-
-import static javafx.scene.input.KeyCode.L;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by arnau on 11/11/2017.
@@ -19,26 +16,62 @@ import static javafx.scene.input.KeyCode.L;
 public class Storage extends UnicastRemoteObject implements StoreData {
 
     Map<String, Long> storedData = new HashMap<String, Long>();
-    Map<String, ArrayList<String>> categoryFilter = new HashMap<String, ArrayList<String>>();
+    private static Map<String, ArrayList<String>> categoryRegister;
 
     public Storage() throws RemoteException {
         super();
+        recoverData();
     }
 
+
+
+    private void update_CategoryFilterHash(){
+        try{
+            System.out.println("updating");
+            FileOutputStream f = new FileOutputStream("CategoryFilter_hash.txt");
+            ObjectOutputStream o = new ObjectOutputStream(f);
+            o.writeObject(categoryRegister);
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void newCatergoryFilter(){
+        try {
+            FileOutputStream f = new FileOutputStream( new File("CategoryFilter_hash.txt"));
+            ObjectOutputStream o = new ObjectOutputStream(f);
+            categoryRegister = new HashMap<String, ArrayList<String>>();
+            o.writeObject(categoryRegister);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void recoverData(){
+        try {
+            FileInputStream f = new FileInputStream("CategoryFilter_hash.txt");
+            ObjectInputStream oi = new ObjectInputStream(f);
+            categoryRegister = (HashMap<String,ArrayList<String>>) oi.readObject();
+        }catch (IOException e){
+            newCatergoryFilter();
+        }catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
     // TODO create handler before storing object
     @Override
     public Long storeObject(ObjectContent obj) throws RemoteException {
         //Initialized so try/catch doesn't kek
         Long serial = 0L;
 
-        if (!storedData.containsKey(obj.getTitle())) {
+        if (storedData.put(obj.getTitle(), serial) == null) {
             try {
                 serial = System.currentTimeMillis();
-                storedData.put(obj.getTitle(), serial);
                 addToCategoryFilter(obj.getCategory(), obj.getTitle());
-                new File(serial.toString()).mkdirs();
+                new File(obj.getTitle()).mkdirs();
 
-                FileOutputStream f = new FileOutputStream(new File(serial.toString() + "/" + serial + "out.txt"));
+                FileOutputStream f = new FileOutputStream(new File(obj.getTitle() + "/" + obj.getTitle() + "out.txt"));
                 ObjectOutputStream o = new ObjectOutputStream(f);
 
                 o.writeObject(obj);
@@ -58,15 +91,16 @@ public class Storage extends UnicastRemoteObject implements StoreData {
         ObjectContent object = new ObjectContent();
 
         try {
-            Long serial = storedData.get(title);
+            /*Long serial = storedData.get(title);
             System.out.println(serial);
-            System.out.println(title);
+            System.out.println(title);*/
 
-            FileInputStream fi = new FileInputStream(new File(serial.toString() + "/" + serial + "out.txt"));
+            FileInputStream fi = new FileInputStream(new File(title + "/" + title + "out.txt"));
             ObjectInputStream oi = new ObjectInputStream(fi);
 
             // Read objects
-           object = (ObjectContent) oi.readObject();
+            object = (ObjectContent) oi.readObject();
+            System.out.println(object.getCategory());
 
             oi.close();
             fi.close();
@@ -95,23 +129,23 @@ public class Storage extends UnicastRemoteObject implements StoreData {
 
     @Override
     public ArrayList<String> getCategoryFilter(String category) {
-        ArrayList<String> itemsList = categoryFilter.get(category);
+        ArrayList<String> itemsList = categoryRegister.get(category);
         return itemsList;
     }
 
     @Override
-    public void addToCategoryFilter(String category, String title) {
-        ArrayList<String> itemsList = categoryFilter.get(category);
-
+    public void addToCategoryFilter(String category, String title) throws IOException {
+        ArrayList<String> itemsList = categoryRegister.get(category);
         // if list does not exist create it
         if(itemsList == null) {
             itemsList = new ArrayList<String>();
             itemsList.add(title);
-            categoryFilter.put(category, itemsList);
+            categoryRegister.put(category, itemsList);
         } else {
             // add if item is not already in list
             if(!itemsList.contains(title)) itemsList.add(title);
         }
+        update_CategoryFilterHash();
     }
 
 }
