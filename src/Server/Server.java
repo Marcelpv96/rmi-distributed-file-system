@@ -1,6 +1,5 @@
 package Server;
 
-import Implementation.ClientCallbackImpl;
 import Implementation.Storage;
 import Interface.ClientCallback;
 
@@ -19,25 +18,19 @@ public class Server  extends UnicastRemoteObject {
 
     private static final int PORT = 40000;
     private static final String RMI_STORE = "rmi://localhost:" + PORT + "/storage";
-    private static List<ClientCallback> clientsCallback;
+    private static List<ClientCallback> clientsCallback = new ArrayList<ClientCallback>();
 
     public Server () throws RemoteException {
         super();
-        clientsCallback = new ArrayList<ClientCallback>();
-
     }
 
     public static void addClientCallback(ClientCallback client) throws RemoteException {
-        //if (client != null)
-           // clientsCallback.add(client);
-        client.callMe("hola");
-
+        Server.clientsCallback.add(client);
     }
 
     public static void callBack() throws RemoteException {
-        for (int i =0; i<clientsCallback.size();i++){
-            ClientCallbackImpl client = (ClientCallbackImpl) clientsCallback.get(i);
-            client.callMe("Server calling client: "+i);
+        for (ClientCallback client : Server.clientsCallback){
+            client.callMe("<ALERT> Some client has added new multimedia Content.");
         }
     }
 

@@ -130,9 +130,8 @@ public class Storage extends UnicastRemoteObject implements StoreData {
     @Override
     public void addCallback(ClientCallback client) throws RemoteException {
         Server.addClientCallback(client);
-        //Server.callBack();
+        Server.callBack();
     }
-
     @Override
     public ArrayList<String> getCategoryFilter(String category) {
         ArrayList<String> itemsList = categoryRegister.get(category);
