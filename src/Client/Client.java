@@ -26,8 +26,11 @@ public class Client {
 
             StoreData storage = (StoreData) Naming.lookup(RMI_STORE);
             System.out.println("Client connected to "+ RMI_STORE);
+
+
+            ObjectContent film1 = new ObjectContent("Star Wars 3", 162, "Action");
             ClientCallback client = new ClientCallbackImpl();
-            storage.addCallback(client);
+            Long key = storage.storeObject(film1, client);
 
 
 

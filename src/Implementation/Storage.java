@@ -60,7 +60,7 @@ public class Storage extends UnicastRemoteObject implements StoreData {
     }
     // TODO create handler before storing object
     @Override
-    public Long storeObject(ObjectContent obj) throws RemoteException {
+    public Long storeObject(ObjectContent obj, ClientCallback client) throws RemoteException {
         //Initialized so try/catch doesn't kek
         Long serial = 0L;
 
@@ -73,6 +73,7 @@ public class Storage extends UnicastRemoteObject implements StoreData {
                 FileOutputStream f = new FileOutputStream(new File(obj.getTitle() + "/" + obj.getTitle() + "out.txt"));
                 ObjectOutputStream o = new ObjectOutputStream(f);
 
+                addCallback(client);
                 o.writeObject(obj);
                 o.close();
                 f.close();
@@ -100,7 +101,6 @@ public class Storage extends UnicastRemoteObject implements StoreData {
             // Read objects
             object = (ObjectContent) oi.readObject();
             System.out.println(object.getCategory());
-
             oi.close();
             fi.close();
 
