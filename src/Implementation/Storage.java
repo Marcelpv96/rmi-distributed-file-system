@@ -1,8 +1,9 @@
 package Implementation;
 
 import Client.ObjectContent;
+import Interface.ClientCallback;
 import Interface.StoreData;
-
+import Server.Server;
 import java.io.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -22,8 +23,6 @@ public class Storage extends UnicastRemoteObject implements StoreData {
         super();
         recoverData();
     }
-
-
 
     private void update_CategoryFilterHash(){
         try{
@@ -107,6 +106,7 @@ public class Storage extends UnicastRemoteObject implements StoreData {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -125,6 +125,12 @@ public class Storage extends UnicastRemoteObject implements StoreData {
     @Override
     public boolean isEmpty() throws RemoteException {
         return storedData.isEmpty();
+    }
+
+    @Override
+    public void addCallback(ClientCallback client) throws RemoteException {
+        Server.addClientCallback(client);
+        //Server.callBack();
     }
 
     @Override
@@ -147,5 +153,7 @@ public class Storage extends UnicastRemoteObject implements StoreData {
         }
         update_CategoryFilterHash();
     }
+
+
 
 }
