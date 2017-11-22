@@ -12,7 +12,7 @@ import java.rmi.RemoteException;
  */
 public class Client {
 
-    private static final int PORT = 40000;
+    private static final int PORT = 40003;
     private static final String RMI_STORE = "rmi://localhost:" + PORT + "/storage";
 
     // TODO Filter by categories, List<>
@@ -42,12 +42,12 @@ public class Client {
 
             //RECUPEREM EL OBJECTE REMOT REGISTRAT PEL SERVIDOR, ENS AFEGIM COM A CALLBACK.
             StoreData storage = (StoreData) Naming.lookup(RMI_STORE);
-            storage.addCallback(new ClientCallbackImpl());
+            storage.addCallback(new Notifier());
 
             System.out.println("Client connected to "+ RMI_STORE);
 
             newContent(storage,"Film5","Action");
-            newContent(storage,"Film2","Action");
+            newContent(storage,"Film6","Action");
             newContent(storage,"Film3","Action");
             newContent(storage,"Film4","Drama");
 

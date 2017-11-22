@@ -1,7 +1,7 @@
 package Server;
 
 import Implementation.Storage;
-import Interface.ClientCallback;
+import Interface.ClientNotifier;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;
@@ -16,20 +16,20 @@ import java.util.List;
  */
 public class Server  extends UnicastRemoteObject {
 
-    private static final int PORT = 40000;
+    private static final int PORT = 40003;
     private static final String RMI_STORE = "rmi://localhost:" + PORT + "/storage";
-    private static List<ClientCallback> clientsCallback = new ArrayList<ClientCallback>();
+    private static List<ClientNotifier> clientsCallback = new ArrayList<ClientNotifier>();
 
     public Server () throws RemoteException {
         super();
     }
 
-    public static void addClientCallback(ClientCallback client) throws RemoteException {
+    public static void addClientCallback(ClientNotifier client) throws RemoteException {
         Server.clientsCallback.add(client);
     }
 
     public static void callBack() throws RemoteException {
-        for (ClientCallback client : Server.clientsCallback){
+        for (ClientNotifier client : Server.clientsCallback){
             client.callMe("<ALERT> Some client has added new multimedia Content.");
         }
     }

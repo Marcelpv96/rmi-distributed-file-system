@@ -1,7 +1,7 @@
 package Implementation;
 
 import Client.ObjectContent;
-import Interface.ClientCallback;
+import Interface.ClientNotifier;
 import Interface.StoreData;
 import Server.Server;
 import java.io.*;
@@ -127,7 +127,7 @@ public class Storage extends UnicastRemoteObject implements StoreData {
     }
 
     @Override
-    public void addCallback(ClientCallback client) throws RemoteException {
+    public void addCallback(ClientNotifier client) throws RemoteException {
         Server.addClientCallback(client);
     }
 

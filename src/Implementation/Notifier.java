@@ -1,6 +1,6 @@
 package Implementation;
 
-import Interface.ClientCallback;
+import Interface.ClientNotifier;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -8,9 +8,9 @@ import java.rmi.server.UnicastRemoteObject;
 /**
  * Created by Marcelpv96 on 21/11/17.
  */
-public class ClientCallbackImpl extends UnicastRemoteObject implements ClientCallback {
+public class Notifier extends UnicastRemoteObject implements ClientNotifier {
 
-    public ClientCallbackImpl () throws RemoteException {
+    public Notifier() throws RemoteException {
         super();
     }
     @Override
