@@ -60,7 +60,6 @@ public class Storage extends UnicastRemoteObject implements StoreData {
         Long serial = 0L;
 
         if (!storedData.containsKey(obj.getTitle())) {
-            System.out.println("JJJJJOOOOOOOOODDDDDDEEEEEEEEEEERRRRRRRRRRRR");
             try {
                 serial = System.currentTimeMillis();
                 storedData.put(obj.getTitle(),serial);
