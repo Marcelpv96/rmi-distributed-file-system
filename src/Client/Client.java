@@ -46,7 +46,7 @@ public class Client {
 
             System.out.println("Client connected to "+ RMI_STORE);
 
-            newContent(storage,"Film1","Action");
+            newContent(storage,"Film5","Action");
             newContent(storage,"Film2","Action");
             newContent(storage,"Film3","Action");
             newContent(storage,"Film4","Drama");
