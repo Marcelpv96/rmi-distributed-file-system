@@ -36,9 +36,7 @@ public class Server  extends UnicastRemoteObject {
 
     public static void main(String[] args) {
         try {
-
             Storage store = new Storage();
-
             startRegistry();
 
             Naming.rebind(RMI_STORE, store);

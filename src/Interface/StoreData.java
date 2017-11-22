@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public interface StoreData extends Remote {
 
-    Long storeObject(ObjectContent obj, ClientCallback client) throws RemoteException;
+    Long storeObject(ObjectContent obj) throws RemoteException;
     ObjectContent getObject(String title) throws  RemoteException;
     int getSize() throws RemoteException;
     boolean isEmpty() throws RemoteException;

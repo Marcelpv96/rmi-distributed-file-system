@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class Storage extends UnicastRemoteObject implements StoreData {
 
-    Map<String, Long> storedData = new HashMap<String, Long>();
+    private static Map<String, Long> storedData;
     private static Map<String, ArrayList<String>> categoryRegister;
 
     public Storage() throws RemoteException {
@@ -24,60 +24,60 @@ public class Storage extends UnicastRemoteObject implements StoreData {
         recoverData();
     }
 
-    private void update_CategoryFilterHash(){
+    //actualitzem el hash.
+    private void update_FileHash(Map <String,?> hashMap, String file_name){
         try{
-            System.out.println("updating");
-            FileOutputStream f = new FileOutputStream("CategoryFilter_hash.txt");
+            FileOutputStream f = new FileOutputStream(file_name);
             ObjectOutputStream o = new ObjectOutputStream(f);
-            o.writeObject(categoryRegister);
+            o.writeObject(hashMap);
         }catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void newCatergoryFilter(){
+    //recuperem el hash de la execució anterior.
+    private HashMap<String, ?> recoverHash(Map <String, ?> hashMap, String file_name){
         try {
-            FileOutputStream f = new FileOutputStream( new File("CategoryFilter_hash.txt"));
-            ObjectOutputStream o = new ObjectOutputStream(f);
-            categoryRegister = new HashMap<String, ArrayList<String>>();
-            o.writeObject(categoryRegister);
-        } catch (IOException e) {
+            FileInputStream f = new FileInputStream(file_name);
+            ObjectInputStream oi = new ObjectInputStream(f);
+            return (HashMap<String, ?>) oi.readObject();
+        }catch (IOException e){
+            return new HashMap<>();
+        }catch (ClassNotFoundException e) {
             e.printStackTrace();
+            return null;
         }
     }
 
     private void recoverData(){
-        try {
-            FileInputStream f = new FileInputStream("CategoryFilter_hash.txt");
-            ObjectInputStream oi = new ObjectInputStream(f);
-            categoryRegister = (HashMap<String,ArrayList<String>>) oi.readObject();
-        }catch (IOException e){
-            newCatergoryFilter();
-        }catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
+        storedData = (Map<String, Long>) recoverHash(storedData ,"storedData_hash.data");
+        categoryRegister= (Map<String, ArrayList<String>>) recoverHash(categoryRegister ,"CategoryRegister_hash.data");
     }
     // TODO create handler before storing object
     @Override
-    public Long storeObject(ObjectContent obj, ClientCallback client) throws RemoteException {
+    public Long storeObject(ObjectContent obj) throws RemoteException {
         //Initialized so try/catch doesn't kek
         Long serial = 0L;
 
-        if (storedData.put(obj.getTitle(), serial) == null) {
+        if (!storedData.containsKey(obj.getTitle())) {
+            System.out.println("JJJJJOOOOOOOOODDDDDDEEEEEEEEEEERRRRRRRRRRRR");
             try {
                 serial = System.currentTimeMillis();
+                storedData.put(obj.getTitle(),serial);
+                update_FileHash(storedData, "storedData_hash.data");
                 addToCategoryFilter(obj.getCategory(), obj.getTitle());
-                new File(obj.getTitle()).mkdirs();
+                new File(Long.toString(serial)).mkdirs();
 
-                FileOutputStream f = new FileOutputStream(new File(obj.getTitle() + "/" + obj.getTitle() + "out.txt"));
+                FileOutputStream f = new FileOutputStream(new File(Long.toString(serial) + "/" + Long.toString(serial) + "out.data"));
                 ObjectOutputStream o = new ObjectOutputStream(f);
 
-                addCallback(client);
+                newContent();
+
                 o.writeObject(obj);
                 o.close();
                 f.close();
 
+                return serial;
             } catch (Exception e) {//Catch exception if any
                 System.err.println("Error: " + e.getMessage());
             }
@@ -91,11 +91,11 @@ public class Storage extends UnicastRemoteObject implements StoreData {
         ObjectContent object = new ObjectContent();
 
         try {
-            /*Long serial = storedData.get(title);
+            Long serial = storedData.get(title);
             System.out.println(serial);
-            System.out.println(title);*/
+            System.out.println(title);
 
-            FileInputStream fi = new FileInputStream(new File(title + "/" + title + "out.txt"));
+            FileInputStream fi = new FileInputStream(new File(Long.toString(serial)+ "/" + Long.toString(serial)  + "out.data"));
             ObjectInputStream oi = new ObjectInputStream(fi);
 
             // Read objects
@@ -130,6 +130,9 @@ public class Storage extends UnicastRemoteObject implements StoreData {
     @Override
     public void addCallback(ClientCallback client) throws RemoteException {
         Server.addClientCallback(client);
+    }
+
+    public void newContent() throws RemoteException{
         Server.callBack();
     }
     @Override
@@ -150,7 +153,7 @@ public class Storage extends UnicastRemoteObject implements StoreData {
             // add if item is not already in list
             if(!itemsList.contains(title)) itemsList.add(title);
         }
-        update_CategoryFilterHash();
+        update_FileHash(categoryRegister,"CategoryRegister_hash.data");
     }
 
 

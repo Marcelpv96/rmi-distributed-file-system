@@ -1,9 +1,7 @@
 package Client;
 
-import Implementation.ClientCallbackImpl;
-import Interface.ClientCallback;
 import Interface.StoreData;
-
+import Implementation.*;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -24,15 +22,16 @@ public class Client {
     public static void main(String[] args) {
         try {
 
+            //RECUPEREM EL OBJECTE REMOT REGISTRAT PEL SERVIDOR, ENS AFEGIM COM A CALLBACK.
             StoreData storage = (StoreData) Naming.lookup(RMI_STORE);
+            storage.addCallback(new ClientCallbackImpl());
+
             System.out.println("Client connected to "+ RMI_STORE);
+            ObjectContent film1 = new ObjectContent("Star Wars 4", 162, "Action");
 
 
-            ObjectContent film1 = new ObjectContent("Star Wars 3", 162, "Action");
-            ClientCallback client = new ClientCallbackImpl();
-            Long key = storage.storeObject(film1, client);
-
-
+            Long key = storage.storeObject(film1);
+            System.out.println(storage.getObject("Star Wars 4").getTitle());
 
 
         } catch (RemoteException e) {
