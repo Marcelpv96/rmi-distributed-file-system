@@ -99,7 +99,6 @@ public class Storage extends UnicastRemoteObject implements StoreData {
 
             // Read objects
             object = (ObjectContent) oi.readObject();
-            System.out.println(object.getCategory());
             oi.close();
             fi.close();
 

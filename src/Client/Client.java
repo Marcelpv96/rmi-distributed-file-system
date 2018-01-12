@@ -1,8 +1,9 @@
 package Client;
 
 
-import Interface.StoreData;
 import Implementation.Notifier;
+import Interface.StoreData;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -25,6 +26,11 @@ public class Client {
         System.out.println(recover.getTitle());
         System.out.println(recover.getCategory());
         System.out.println(recover.getDuration());
+        try {
+            recover.writeFile();
+        }catch (IOException e){
+            System.out.println("SOME ERROR");
+        }
         System.out.println("END RECOVER CONTENT:");
 
     }
@@ -46,8 +52,8 @@ public class Client {
 
     }
 
-    private static void newContent(StoreData storage, String title, String Category)throws RemoteException{
-        ObjectContent obj = new ObjectContent(title, 162, Category);
+    private static void newContent(StoreData storage, String path, String extension, String name)throws RemoteException{
+        ObjectContent obj = new ObjectContent(path, extension, name);
         Long key = storage.storeObject(obj);
     }
 
@@ -55,10 +61,12 @@ public class Client {
         System.out.println("Title of content : ");
         String contentName = new BufferedReader(new InputStreamReader(System.in)).readLine();
 
-        System.out.println("Category of content : ");
-        String category = new BufferedReader(new InputStreamReader(System.in)).readLine();
+        System.out.println("extension of content, IMPORTANT follow this format , example for a pdf file: '.pdf'  : ");
+        String extension = new BufferedReader(new InputStreamReader(System.in)).readLine();
 
-        newContent(storage,contentName,category);
+        System.out.println("Path of content (give me full path or drop the file in the console): ");
+        String path = new BufferedReader(new InputStreamReader(System.in)).readLine();
+        newContent(storage, path, extension, contentName);
     }
 
     private static void actionGetContent(String contentName, StoreData storage) throws RemoteException {
