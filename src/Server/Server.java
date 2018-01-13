@@ -75,5 +75,9 @@ public class Server  extends UnicastRemoteObject {
             System.out.println("RMI registry created at port " + PORT);
         }
     }
+
+    public static void removeClientCallback(ClientNotifier client) {
+        Server.clientsCallback.remove(client);
+    }
 }
 

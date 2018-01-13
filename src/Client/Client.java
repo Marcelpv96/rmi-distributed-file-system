@@ -93,7 +93,8 @@ public class Client {
 
             //RECUPEREM EL OBJECTE REMOT REGISTRAT PEL SERVIDOR, ENS AFEGIM COM A CALLBACK.
             StoreData storage = (StoreData) Naming.lookup(RMI_STORE);
-            storage.addCallback(new Notifier());
+            Notifier notifier = new Notifier();
+            storage.addCallback(notifier);
 
             System.out.println("Client connected to "+ RMI_STORE);
             while (true){
@@ -111,6 +112,7 @@ public class Client {
                     String savePath = new BufferedReader(new InputStreamReader(System.in)).readLine();
                     actionGetContent(contentName, extension, storage, savePath);
                 }else if (choice.equals("exit")){
+                    storage.removeCallback(notifier);
                     System.exit(1);
                 }else if (choice.equals("list")){
                     System.out.println("Give me a extension type and I will list all content with that extension , like for example 'pdf' :");

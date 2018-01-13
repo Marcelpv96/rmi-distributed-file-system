@@ -51,10 +51,9 @@ public class Storage extends UnicastRemoteObject implements StoreData {
     private void recoverData(){
         categoryRegister= (Map<String, ArrayList<String>>) recoverHash(categoryRegister ,"CategoryRegister_hash.data");
     }
-    // TODO create handler before storing object
+
     @Override
     public void storeObject(ObjectContent obj) throws RemoteException {
-        //Initialized so try/catch doesn't kek
         if (obj == null) return;
         String serial = obj.getTitle()+obj.getExtension();
 
@@ -111,9 +110,10 @@ public class Storage extends UnicastRemoteObject implements StoreData {
     }
 
 
-
-
-
+    @Override
+    public void removeCallback(ClientNotifier client) throws RemoteException {
+        Server.removeClientCallback(client);
+    }
 
     @Override
     public void addCallback(ClientNotifier client) throws RemoteException {

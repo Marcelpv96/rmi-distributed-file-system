@@ -15,7 +15,7 @@ public interface StoreData extends Remote {
     void storeObject(ObjectContent obj) throws RemoteException;
     ObjectContent getObject(String title, String extension) throws  RemoteException;
     void addCallback(ClientNotifier client) throws RemoteException;
+    void removeCallback(ClientNotifier client) throws RemoteException;
     ArrayList<String> getCategoryFilter(String category) throws RemoteException;
     void addToCategoryFilter(String cat, String title) throws IOException;
-
 }
