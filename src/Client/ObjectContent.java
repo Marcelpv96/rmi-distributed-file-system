@@ -38,14 +38,14 @@ public class ObjectContent implements Serializable {
 
 
     public void writeFile(String savePath) throws IOException {
-        File multimedia_file = new File(savePath +title + "." +extension);
+        File multimedia_file = new File(savePath + title + "." + extension);
         multimedia_file.createNewFile();
         OutputStream out;
-        try{
-            out = new FileOutputStream(savePath +title + "." +extension);
+        try {
+            out = new FileOutputStream(savePath + title + "." + extension);
             out.write(data);
             out.close();
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println("ERROR: somtehing wrong");
         }
     }

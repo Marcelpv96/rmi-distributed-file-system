@@ -58,7 +58,7 @@ public class Storage extends UnicastRemoteObject implements StoreData {
         String serial = obj.getTitle()+obj.getExtension();
 
         try {
-            addToCategoryFilter(obj.getCategory(), obj.getTitle());
+            addToCategoryFilter(obj.getExtension(), obj.getTitle());
             new File(serial).mkdirs();
 
             FileOutputStream f = new FileOutputStream(new File(serial + "/" + serial + "out.data"));

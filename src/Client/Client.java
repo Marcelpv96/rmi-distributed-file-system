@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 /**
  * Created by arnau on 11/11/2017.
@@ -31,7 +32,11 @@ public class Client {
     }
 
     private static void getFromCategory(StoreData storage, String category) throws RemoteException{
-
+        ArrayList<String> listContents = storage.getCategoryFilter(category);
+        System.out.println("List of contents with a extension  '" + category + "' :");
+        for ( String content : listContents) {
+            System.out.println("- NAME: '" + content+"'.");
+        }
 
     }
 
@@ -76,7 +81,7 @@ public class Client {
 
             System.out.println("Client connected to "+ RMI_STORE);
             while (true){
-                System.out.println("What do you want to do? (upload) (download) (exit)");
+                System.out.println("What do you want to do? (upload) (download) (exit) (list)");
                 String choice = new BufferedReader(new InputStreamReader(System.in)).readLine();
                 if (choice.equals("upload")){
                     actionAddContent(storage);
@@ -91,6 +96,10 @@ public class Client {
                     actionGetContent(contentName, extension, storage, savePath);
                 }else if (choice.equals("exit")){
                     System.exit(1);
+                }else if (choice.equals("list")){
+                    System.out.println("Give me a extension type and I will list all content with that extension , like for example 'pdf' :");
+                    String extension = new BufferedReader(new InputStreamReader(System.in)).readLine();
+                    getFromCategory(storage, extension);
                 }
                 else{
                     System.out.println("Commands: <download>, <upload>, <exit>");
