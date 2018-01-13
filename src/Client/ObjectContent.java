@@ -30,19 +30,19 @@ public class ObjectContent implements Serializable {
             System.out.println("ERROR: somtehing wrong");
         }
     }
-
     public ObjectContent(String title, int duration, String category) {
         this.title = title;
         this.duration = duration;
         this.category = category;
     }
 
+
     public void writeFile(String savePath) throws IOException {
-        File multimedia_file = new File(savePath +title + extension);
+        File multimedia_file = new File(savePath +title + "." +extension);
         multimedia_file.createNewFile();
         OutputStream out;
         try{
-            out = new FileOutputStream(savePath +title + extension);
+            out = new FileOutputStream(savePath +title + "." +extension);
             out.write(data);
             out.close();
         } catch (IOException e){
@@ -66,17 +66,13 @@ public class ObjectContent implements Serializable {
         return duration;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
+    public String getExtension () {return extension; };
+
 
     public String getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
 
 
 

@@ -16,7 +16,6 @@ import java.util.Map;
  */
 public class Storage extends UnicastRemoteObject implements StoreData {
 
-    private static Map<String, Long> storedData;
     private static Map<String, ArrayList<String>> categoryRegister;
 
     public Storage() throws RemoteException {
@@ -50,51 +49,46 @@ public class Storage extends UnicastRemoteObject implements StoreData {
     }
 
     private void recoverData(){
-        storedData = (Map<String, Long>) recoverHash(storedData ,"storedData_hash.data");
         categoryRegister= (Map<String, ArrayList<String>>) recoverHash(categoryRegister ,"CategoryRegister_hash.data");
     }
     // TODO create handler before storing object
     @Override
-    public Long storeObject(ObjectContent obj) throws RemoteException {
+    public void storeObject(ObjectContent obj) throws RemoteException {
         //Initialized so try/catch doesn't kek
-        Long serial = 0L;
+        String serial = obj.getTitle()+obj.getExtension();
 
-        if (!storedData.containsKey(obj.getTitle())) {
-            try {
-                serial = System.currentTimeMillis();
-                storedData.put(obj.getTitle(),serial);
-                update_FileHash(storedData, "storedData_hash.data");
-                addToCategoryFilter(obj.getCategory(), obj.getTitle());
-                new File(Long.toString(serial)).mkdirs();
+        try {
+            addToCategoryFilter(obj.getCategory(), obj.getTitle());
+            new File(serial).mkdirs();
 
-                FileOutputStream f = new FileOutputStream(new File(Long.toString(serial) + "/" + Long.toString(serial) + "out.data"));
-                ObjectOutputStream o = new ObjectOutputStream(f);
+            FileOutputStream f = new FileOutputStream(new File(serial + "/" + serial + "out.data"));
+            ObjectOutputStream o = new ObjectOutputStream(f);
 
-                newContent();
+            newContent();
 
-                o.writeObject(obj);
-                o.close();
-                f.close();
+            o.writeObject(obj);
+            o.close();
+            f.close();
 
-                return serial;
-            } catch (Exception e) {//Catch exception if any
-                System.err.println("Error: " + e.getMessage());
-            }
+        } catch (Exception e) {//Catch exception if any
+            System.err.println("Error: " + e.getMessage());
         }
-        return storedData.get(obj.getTitle());
+
     }
 
+
+
     @Override
-    public ObjectContent getObject(String title) throws RemoteException {
+    public ObjectContent getObject(String title, String extension) throws RemoteException {
 
         ObjectContent object = new ObjectContent();
 
         try {
-            Long serial = storedData.get(title);
+            String serial = title + extension;
             System.out.println(serial);
             System.out.println(title);
 
-            FileInputStream fi = new FileInputStream(new File(Long.toString(serial)+ "/" + Long.toString(serial)  + "out.data"));
+            FileInputStream fi = new FileInputStream(new File(serial + "/" + serial + "out.data"));
             ObjectInputStream oi = new ObjectInputStream(fi);
 
             // Read objects
@@ -115,15 +109,10 @@ public class Storage extends UnicastRemoteObject implements StoreData {
 
     }
 
-    @Override
-    public int getSize() throws RemoteException {
-        return storedData.size();
-    }
 
-    @Override
-    public boolean isEmpty() throws RemoteException {
-        return storedData.isEmpty();
-    }
+
+
+
 
     @Override
     public void addCallback(ClientNotifier client) throws RemoteException {

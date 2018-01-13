@@ -20,8 +20,8 @@ public class Client {
     private static String RMI_STORE;
 
 
-    private static void getContent(StoreData storage, String title, String savePath) throws RemoteException {
-        ObjectContent recover = storage.getObject(title);
+    private static void getContent(StoreData storage, String title, String extension, String savePath) throws RemoteException {
+        ObjectContent recover = storage.getObject(title, extension);
         try {
             System.out.println("Content downloaded");
             recover.writeFile(savePath);
@@ -31,32 +31,20 @@ public class Client {
     }
 
     private static void getFromCategory(StoreData storage, String category) throws RemoteException{
-        ObjectContent recoveryFromList = storage.getObject(storage.getCategoryFilter("Action").get(0));
-        System.out.println("RECOVER CONTENT FROM LIST:");
-        System.out.println(recoveryFromList.getTitle());
-        System.out.println(recoveryFromList.getCategory());
-        System.out.println(recoveryFromList.getDuration());
-        System.out.println("END RECOVER CONTENT FROM LIST:");
 
-        ObjectContent recoveryFromList1 = storage.getObject(storage.getCategoryFilter("Action").get(1));
-        System.out.println("RECOVER CONTENT FROM LIST:");
-        System.out.println(recoveryFromList1.getTitle());
-        System.out.println(recoveryFromList1.getCategory());
-        System.out.println(recoveryFromList1.getDuration());
-        System.out.println("END RECOVER CONTENT FROM LIST:");
 
     }
 
     private static void newContent(StoreData storage, String path, String extension, String name)throws RemoteException{
         ObjectContent obj = new ObjectContent(path, extension, name);
-        Long key = storage.storeObject(obj);
+        storage.storeObject(obj);
     }
 
     private static void actionAddContent(StoreData storage) throws IOException {
         System.out.println("Title of content : ");
         String contentName = new BufferedReader(new InputStreamReader(System.in)).readLine();
 
-        System.out.println("extension of content, IMPORTANT follow this format , example for a pdf file: '.pdf'  : ");
+        System.out.println("extension of content, IMPORTANT follow this format , example for a pdf file: 'pdf'  : ");
         String extension = new BufferedReader(new InputStreamReader(System.in)).readLine();
 
         System.out.println("Path of content (give me full path or drop the file in the console): ");
@@ -64,8 +52,8 @@ public class Client {
         newContent(storage, path, extension, contentName);
     }
 
-    private static void actionGetContent(String contentName, StoreData storage, String savePath) throws RemoteException {
-        getContent(storage, contentName, savePath);
+    private static void actionGetContent(String contentName, String extension, StoreData storage, String savePath) throws RemoteException {
+        getContent(storage, contentName, extension, savePath);
     }
 
     public static void main(String[] args) {
@@ -96,9 +84,11 @@ public class Client {
                 else if (choice.equals("download")){
                     System.out.println("Title of content : ");
                     String contentName = new BufferedReader(new InputStreamReader(System.in)).readLine();
+                    System.out.println("Extension of content : ");
+                    String extension = new BufferedReader(new InputStreamReader(System.in)).readLine();
                     System.out.println("Path where you (client) want to save the content : ");
                     String savePath = new BufferedReader(new InputStreamReader(System.in)).readLine();
-                    actionGetContent(contentName, storage, savePath);
+                    actionGetContent(contentName, extension, storage, savePath);
                 }else if (choice.equals("exit")){
                     System.exit(1);
                 }

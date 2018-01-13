@@ -12,10 +12,8 @@ import java.util.ArrayList;
  */
 public interface StoreData extends Remote {
 
-    Long storeObject(ObjectContent obj) throws RemoteException;
-    ObjectContent getObject(String title) throws  RemoteException;
-    int getSize() throws RemoteException;
-    boolean isEmpty() throws RemoteException;
+    void storeObject(ObjectContent obj) throws RemoteException;
+    ObjectContent getObject(String title, String extension) throws  RemoteException;
     void addCallback(ClientNotifier client) throws RemoteException;
     ArrayList<String> getCategoryFilter(String category) throws RemoteException;
     void addToCategoryFilter(String cat, String title) throws IOException;
