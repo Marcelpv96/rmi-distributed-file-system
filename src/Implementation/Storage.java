@@ -10,6 +10,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.security.MessageDigest;
 
 /**
  * Created by arnau on 11/11/2017.
@@ -55,7 +56,7 @@ public class Storage extends UnicastRemoteObject implements StoreData {
     @Override
     public void storeObject(ObjectContent obj) throws RemoteException {
         if (obj == null) return;
-        String serial = obj.getTitle()+obj.getExtension();
+        String serial = String.valueOf((obj.getTitle()+obj.getExtension()).hashCode());
 
         try {
             addToCategoryFilter(obj.getExtension(), obj.getTitle());
@@ -84,7 +85,7 @@ public class Storage extends UnicastRemoteObject implements StoreData {
         ObjectContent object = new ObjectContent();
 
         try {
-            String serial = title + extension;
+            String serial = String.valueOf((title+extension).hashCode());
             System.out.println(serial);
             System.out.println(title);
             File f = new File(serial + "/" + serial + "out.data");
