@@ -37,12 +37,12 @@ public class ObjectContent implements Serializable {
         this.category = category;
     }
 
-    public void writeFile() throws IOException {
-        File multimedia_file = new File(title + extension);
+    public void writeFile(String savePath) throws IOException {
+        File multimedia_file = new File(savePath +title + extension);
         multimedia_file.createNewFile();
         OutputStream out;
         try{
-            out = new FileOutputStream(title + extension);
+            out = new FileOutputStream(savePath +title + extension);
             out.write(data);
             out.close();
         } catch (IOException e){

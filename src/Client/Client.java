@@ -20,19 +20,14 @@ public class Client {
     private static String RMI_STORE;
 
 
-    private static void getContent(StoreData storage, String title) throws RemoteException {
+    private static void getContent(StoreData storage, String title, String savePath) throws RemoteException {
         ObjectContent recover = storage.getObject(title);
-        System.out.println("RECOVER CONTENT:");
-        System.out.println(recover.getTitle());
-        System.out.println(recover.getCategory());
-        System.out.println(recover.getDuration());
         try {
-            recover.writeFile();
+            System.out.println("Content downloaded");
+            recover.writeFile(savePath);
         }catch (IOException e){
             System.out.println("SOME ERROR");
         }
-        System.out.println("END RECOVER CONTENT:");
-
     }
 
     private static void getFromCategory(StoreData storage, String category) throws RemoteException{
@@ -69,8 +64,8 @@ public class Client {
         newContent(storage, path, extension, contentName);
     }
 
-    private static void actionGetContent(String contentName, StoreData storage) throws RemoteException {
-        getContent(storage,contentName);
+    private static void actionGetContent(String contentName, StoreData storage, String savePath) throws RemoteException {
+        getContent(storage, contentName, savePath);
     }
 
     public static void main(String[] args) {
@@ -101,7 +96,9 @@ public class Client {
                 else if (choice.equals("download")){
                     System.out.println("Title of content : ");
                     String contentName = new BufferedReader(new InputStreamReader(System.in)).readLine();
-                    actionGetContent(contentName, storage);
+                    System.out.println("Path where you (client) want to save the content : ");
+                    String savePath = new BufferedReader(new InputStreamReader(System.in)).readLine();
+                    actionGetContent(contentName, storage, savePath);
                 }else if (choice.equals("exit")){
                     System.exit(1);
                 }
