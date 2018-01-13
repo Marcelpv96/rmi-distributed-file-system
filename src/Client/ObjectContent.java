@@ -27,7 +27,8 @@ public class ObjectContent implements Serializable {
             Path filePath = Paths.get(path);
             data = Files.readAllBytes(filePath);
         } catch (IOException e){
-            System.out.println("ERROR: somtehing wrong");
+            System.out.println("READ ERROR: content doesn't exist");
+            this.title = null;
         }
     }
     public ObjectContent(String title, int duration, String category) {
@@ -46,7 +47,7 @@ public class ObjectContent implements Serializable {
             out.write(data);
             out.close();
         } catch (IOException e) {
-            System.out.println("ERROR: somtehing wrong");
+            System.out.println("WRITE ERROR: content doesn't exist");
         }
     }
 

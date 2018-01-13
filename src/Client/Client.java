@@ -23,16 +23,24 @@ public class Client {
 
     private static void getContent(StoreData storage, String title, String extension, String savePath) throws RemoteException {
         ObjectContent recover = storage.getObject(title, extension);
+        if (recover == null) {
+            return;
+        }
         try {
             System.out.println("Content downloaded");
             recover.writeFile(savePath);
         }catch (IOException e){
-            System.out.println("SOME ERROR");
+            System.out.println("File not avaible");
+            return;
         }
     }
 
     private static void getFromCategory(StoreData storage, String category) throws RemoteException{
         ArrayList<String> listContents = storage.getCategoryFilter(category);
+        if (listContents == null) {
+            System.out.println("List of contents with a extension  '" + category + "' is empty.");
+            return;
+        }
         System.out.println("List of contents with a extension  '" + category + "' :");
         for ( String content : listContents) {
             System.out.println("- NAME: '" + content+"'.");
@@ -42,6 +50,10 @@ public class Client {
 
     private static void newContent(StoreData storage, String path, String extension, String name)throws RemoteException{
         ObjectContent obj = new ObjectContent(path, extension, name);
+        if (obj.getTitle() == null) {
+            //System.out.println();
+            return;
+        }
         storage.storeObject(obj);
     }
 
@@ -58,7 +70,11 @@ public class Client {
     }
 
     private static void actionGetContent(String contentName, String extension, StoreData storage, String savePath) throws RemoteException {
-        getContent(storage, contentName, extension, savePath);
+        try {
+            getContent(storage, contentName, extension, savePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {

@@ -55,6 +55,7 @@ public class Storage extends UnicastRemoteObject implements StoreData {
     @Override
     public void storeObject(ObjectContent obj) throws RemoteException {
         //Initialized so try/catch doesn't kek
+        if (obj == null) return;
         String serial = obj.getTitle()+obj.getExtension();
 
         try {
@@ -87,14 +88,16 @@ public class Storage extends UnicastRemoteObject implements StoreData {
             String serial = title + extension;
             System.out.println(serial);
             System.out.println(title);
+            File f = new File(serial + "/" + serial + "out.data");
+            if (f.exists()) {
+                FileInputStream fi = new FileInputStream(f);
+                ObjectInputStream oi = new ObjectInputStream(fi);
 
-            FileInputStream fi = new FileInputStream(new File(serial + "/" + serial + "out.data"));
-            ObjectInputStream oi = new ObjectInputStream(fi);
-
-            // Read objects
-            object = (ObjectContent) oi.readObject();
-            oi.close();
-            fi.close();
+                // Read objects
+                object = (ObjectContent) oi.readObject();
+                oi.close();
+                fi.close();
+            } else return null;
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -104,9 +107,7 @@ public class Storage extends UnicastRemoteObject implements StoreData {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
         return object;
-
     }
 
 
