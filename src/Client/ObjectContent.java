@@ -69,16 +69,13 @@ public class ObjectContent implements Serializable {
     public String getExtension () {return extension; };
 
 
-    public String getCategory() {
-        return category;
-    }
-
-
-
 
     @Override
     public String toString() {
         return "Title:" + title + "\nDuration: " + duration + "\nCategory: " + category;
     }
 
+    public String getCategory() {
+        return category;
+    }
 }
