@@ -4,13 +4,15 @@ import Client.ObjectContent;
 import Interface.ClientNotifier;
 import Interface.StoreData;
 import Server.Server;
+
 import java.io.*;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.security.MessageDigest;
 
 /**
  * Created by arnau on 11/11/2017.
@@ -18,9 +20,13 @@ import java.security.MessageDigest;
 public class Storage extends UnicastRemoteObject implements StoreData {
 
     private static Map<String, ArrayList<String>> categoryRegister;
+    private StorageServers storageServers;
+    private String address;
 
-    public Storage() throws RemoteException {
+    public Storage(StorageServers storageServers,String address) throws RemoteException {
         super();
+        this.storageServers = storageServers;
+        this.address = address;
         recoverData();
     }
 
@@ -69,6 +75,7 @@ public class Storage extends UnicastRemoteObject implements StoreData {
 
             o.writeObject(obj);
             o.close();
+            storageServers.addServer(address, serial);
             f.close();
 
         } catch (Exception e) {//Catch exception if any
@@ -80,36 +87,37 @@ public class Storage extends UnicastRemoteObject implements StoreData {
 
 
     @Override
-    public ObjectContent getObject(String title, String extension) throws RemoteException {
+    public ObjectContent getObject(String title, String extension) throws IOException, NotBoundException, ClassNotFoundException {
 
-        ObjectContent object = new ObjectContent();
-
-        try {
-            String serial = String.valueOf((title+extension).hashCode());
-            System.out.println(serial);
-            System.out.println(title);
-            File f = new File(serial + "/" + serial + "out.data");
-            if (f.exists()) {
-                FileInputStream fi = new FileInputStream(f);
-                ObjectInputStream oi = new ObjectInputStream(fi);
-
-                // Read objects
-                object = (ObjectContent) oi.readObject();
-                oi.close();
-                fi.close();
-            } else return null;
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        ObjectContent object;
+        String serial = String.valueOf((title+extension).hashCode());
+        System.out.println(serial);
+        System.out.println(title);
+        File f = new File(serial + "/" + serial + "out.data");
+        if (f.exists()) {
+            FileInputStream fi = new FileInputStream(f);
+            ObjectInputStream oi = new ObjectInputStream(fi);
+            // Read objects
+            object = (ObjectContent) oi.readObject();
+            oi.close();
+            fi.close();
+        } else {
+            String serverAdress = storageServers.getServer(String.valueOf((title+extension).hashCode()));
+            return recoverRemote(title, extension, serverAdress);
         }
         return object;
     }
 
+    public ObjectContent recoverRemote(String title, String extension, String remote) throws IOException, NotBoundException, ClassNotFoundException {
+        StoreData storage = (StoreData) Naming.lookup(remote);
+        ObjectContent object = recoverOtherServer(title, extension,storage);
+        return object;
+    }
+
+    private ObjectContent recoverOtherServer(String title, String extension, StoreData storage) throws IOException, NotBoundException, ClassNotFoundException {
+        ObjectContent obj = storage.getObject(title, extension);
+        return obj;
+    }
 
     @Override
     public void removeCallback(ClientNotifier client) throws RemoteException {

@@ -21,7 +21,7 @@ public class Client {
     private static String RMI_STORE;
 
 
-    private static void getContent(StoreData storage, String title, String extension, String savePath) throws RemoteException {
+    private static void getContent(StoreData storage, String title, String extension, String savePath) throws IOException, NotBoundException, ClassNotFoundException {
         ObjectContent recover = storage.getObject(title, extension);
         if (recover == null) {
             return;
@@ -79,6 +79,15 @@ public class Client {
 
     public static void main(String[] args) {
         try {
+
+            System.out.println(" ██████╗██╗     ██╗███████╗███╗   ██╗████████╗\n" +
+                    "██╔════╝██║     ██║██╔════╝████╗  ██║╚══██╔══╝\n" +
+                    "██║     ██║     ██║█████╗  ██╔██╗ ██║   ██║   \n" +
+                    "██║     ██║     ██║██╔══╝  ██║╚██╗██║   ██║   \n" +
+                    "╚██████╗███████╗██║███████╗██║ ╚████║   ██║   \n" +
+                    " ╚═════╝╚══════╝╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝   \n" +
+                    "                                             ");
+            System.out.println("");
             BufferedReader bufferRead;
 
             System.out.println("Give me, Server IP (never use 127.0.0.1 or localhost): ");

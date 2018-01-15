@@ -3,6 +3,7 @@ package Interface;
 import Client.ObjectContent;
 
 import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -13,9 +14,11 @@ import java.util.ArrayList;
 public interface StoreData extends Remote {
 
     void storeObject(ObjectContent obj) throws RemoteException;
-    ObjectContent getObject(String title, String extension) throws  RemoteException;
+    ObjectContent getObject(String title, String extension) throws IOException, NotBoundException, ClassNotFoundException;
     void addCallback(ClientNotifier client) throws RemoteException;
     void removeCallback(ClientNotifier client) throws RemoteException;
     ArrayList<String> getCategoryFilter(String category) throws RemoteException;
     void addToCategoryFilter(String cat, String title) throws IOException;
+
+
 }
