@@ -3,6 +3,7 @@ package Implementation;
 import Client.ObjectContent;
 import Interface.ClientNotifier;
 import Interface.StoreData;
+import Interface.StoreServers;
 import Server.Server;
 
 import java.io.*;
@@ -20,10 +21,10 @@ import java.util.Map;
 public class Storage extends UnicastRemoteObject implements StoreData {
 
     private static Map<String, ArrayList<String>> categoryRegister;
-    private StorageServers storageServers;
+    private StoreServers storageServers;
     private String address;
 
-    public Storage(StorageServers storageServers,String address) throws RemoteException {
+    public Storage(StoreServers storageServers, String address) throws RemoteException {
         super();
         this.storageServers = storageServers;
         this.address = address;

@@ -1,6 +1,5 @@
 package Server;
 
-import Implementation.StorageServers;
 import Interface.ClientNotifier;
 import Implementation.Storage;
 import Interface.StoreServers;
@@ -64,7 +63,8 @@ public class Server  extends UnicastRemoteObject {
                 e.printStackTrace();
             }
 
-            Storage store = new Storage((StorageServers) connectToMaster(), RMI_STORE);
+            StoreServers storageServers = connectToMaster();
+            Storage store = new Storage(storageServers, RMI_STORE);
             startRegistry();
 
             Naming.rebind(RMI_STORE, store);
@@ -75,21 +75,16 @@ public class Server  extends UnicastRemoteObject {
         }
     }
 
-    public static StoreServers connectToMaster(){
-        try {
-            System.out.println("Give me, IP addres of master server: ");
-            String ip = new BufferedReader(new InputStreamReader(System.in)).readLine();
-            System.out.println("Give me, PORT of master server: ");
-            String port = new BufferedReader(new InputStreamReader(System.in)).readLine();
-            String RMI_MASTER_STORE = "rmi://"+ip+":"+port+"/storage";
-            StoreServers storage = (StoreServers) Naming.lookup(RMI_MASTER_STORE);
-            return storage;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NotBoundException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static StoreServers connectToMaster() throws IOException, NotBoundException {
+        System.out.println("Give me, IP addres of master server: ");
+        String ip = new BufferedReader(new InputStreamReader(System.in)).readLine();
+
+        System.out.println("Give me, PORT of master server: ");
+        String port = new BufferedReader(new InputStreamReader(System.in)).readLine();
+
+        String RMI_MASTER_STORE = "rmi://"+ip+":"+port+"/storage";
+
+        return (StoreServers) Naming.lookup(RMI_MASTER_STORE);
     }
 
     private static void startRegistry() throws RemoteException{
