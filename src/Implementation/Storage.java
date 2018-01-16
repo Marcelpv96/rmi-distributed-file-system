@@ -2,82 +2,50 @@ package Implementation;
 
 import Client.ObjectContent;
 import Interface.ClientNotifier;
-import Interface.StoreData;
-import Interface.StoreServers;
+import Interface.FileStorage;
+import Interface.CoordinatorServer;
+import SecurityLayer.CheckSum;
 import Server.Server;
 
 import java.io.*;
+import java.math.BigInteger;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by arnau on 11/11/2017.
- */
-public class Storage extends UnicastRemoteObject implements StoreData {
+public class Storage extends UnicastRemoteObject implements FileStorage {
 
     private static Map<String, ArrayList<String>> categoryRegister;
-    private StoreServers storageServers;
+    private CoordinatorServer storageServers;
+    private StorageWriter storageWriter;
     private String address;
 
-    public Storage(StoreServers storageServers, String address) throws RemoteException {
+    public Storage(CoordinatorServer storageServers, String address) throws RemoteException {
         super();
         this.storageServers = storageServers;
         this.address = address;
+        this.storageWriter = new StorageWriter();
         recoverData();
     }
 
-    //actualitzem el hash.
-    private void update_FileHash(Map <String,?> hashMap, String file_name){
-        try{
-            FileOutputStream f = new FileOutputStream(file_name);
-            ObjectOutputStream o = new ObjectOutputStream(f);
-            o.writeObject(hashMap);
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //recuperem el hash de la execució anterior.
-    private HashMap<String, ?> recoverHash(Map <String, ?> hashMap, String file_name){
-        try {
-            FileInputStream f = new FileInputStream(file_name);
-            ObjectInputStream oi = new ObjectInputStream(f);
-            return (HashMap<String, ?>) oi.readObject();
-        }catch (IOException e){
-            return new HashMap<>();
-        }catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private void recoverData(){
-        categoryRegister= (Map<String, ArrayList<String>>) recoverHash(categoryRegister ,"CategoryRegister_hash.data");
-    }
-
     @Override
-    public void storeObject(ObjectContent obj) throws RemoteException {
+    public void storeObject(ObjectContent obj, BigInteger checksum) throws IOException, NoSuchAlgorithmException {
         if (obj == null) return;
-        String serial = String.valueOf((obj.getTitle()+obj.getExtension()).hashCode());
+        if (checkIntegrity(obj, checksum)) return;
+
+        String serial = getSerialValue(obj);
 
         try {
             addToCategoryFilter(obj.getExtension(), obj.getTitle());
             new File(serial).mkdirs();
-
-            FileOutputStream f = new FileOutputStream(new File(serial + "/" + serial + "out.data"));
-            ObjectOutputStream o = new ObjectOutputStream(f);
-
-            newContent();
-
-            o.writeObject(obj);
-            o.close();
+            writeObjectContent(obj, serial);
+            storageServers.addCategory(obj.getExtension(), obj.getTitle());
             storageServers.addServer(address, serial);
-            f.close();
 
         } catch (Exception e) {//Catch exception if any
             System.err.println("Error: " + e.getMessage());
@@ -85,39 +53,10 @@ public class Storage extends UnicastRemoteObject implements StoreData {
 
     }
 
-
-
     @Override
-    public ObjectContent getObject(String title, String extension) throws IOException, NotBoundException, ClassNotFoundException {
-
-        ObjectContent object;
-        String serial = String.valueOf((title+extension).hashCode());
-        System.out.println(serial);
-        System.out.println(title);
-        File f = new File(serial + "/" + serial + "out.data");
-        if (f.exists()) {
-            FileInputStream fi = new FileInputStream(f);
-            ObjectInputStream oi = new ObjectInputStream(fi);
-            // Read objects
-            object = (ObjectContent) oi.readObject();
-            oi.close();
-            fi.close();
-        } else {
-            String serverAdress = storageServers.getServer(String.valueOf((title+extension).hashCode()));
-            return recoverRemote(title, extension, serverAdress);
-        }
-        return object;
-    }
-
-    public ObjectContent recoverRemote(String title, String extension, String remote) throws IOException, NotBoundException, ClassNotFoundException {
-        StoreData storage = (StoreData) Naming.lookup(remote);
-        ObjectContent object = recoverOtherServer(title, extension,storage);
-        return object;
-    }
-
-    private ObjectContent recoverOtherServer(String title, String extension, StoreData storage) throws IOException, NotBoundException, ClassNotFoundException {
-        ObjectContent obj = storage.getObject(title, extension);
-        return obj;
+    public ArrayList<String> getCategoryFilter(String category) throws RemoteException {
+        ArrayList<String> itemsList =  storageServers.getCategory(category);
+        return itemsList;
     }
 
     @Override
@@ -130,30 +69,100 @@ public class Storage extends UnicastRemoteObject implements StoreData {
         Server.addClientCallback(client);
     }
 
-    public void newContent() throws RemoteException{
-        Server.callBack();
-    }
     @Override
-    public ArrayList<String> getCategoryFilter(String category) {
-        ArrayList<String> itemsList = categoryRegister.get(category);
-        return itemsList;
+    public ObjectContent getObject(String title, String extension) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException {
+
+        ObjectContent object;
+        String serial = getSerialValue(title, extension);
+        System.out.println("Server retrieving "+ title+ "." + extension + ":" + serial);
+        File f = new File(serial + "/" + serial + "out.data");
+        if (f.exists()) {
+            object = getObjectContent(f);
+        } else {
+            String serverAdress = storageServers.getServer(String.valueOf((title+extension).hashCode()));
+            return recoverRemote(title, extension, serverAdress);
+        }
+        return object;
     }
 
-    @Override
-    public void addToCategoryFilter(String category, String title) throws IOException {
+    private ObjectContent getObjectContent(File f) throws IOException, ClassNotFoundException {
+
+        ObjectContent object;FileInputStream fi = new FileInputStream(f);
+        ObjectInputStream oi = new ObjectInputStream(fi);
+
+        object = (ObjectContent) oi.readObject();
+
+        oi.close();
+        fi.close();
+
+        return object;
+    }
+
+    private ObjectContent recoverRemote(String title, String extension, String remote) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException {
+        FileStorage storage = (FileStorage) Naming.lookup(remote);
+        ObjectContent object = recoverOtherServer(title, extension,storage);
+        return object;
+    }
+
+
+    private void newContentCallback() throws RemoteException{
+        Server.callBack();
+    }
+
+    private ObjectContent recoverOtherServer(String title, String extension, FileStorage storage) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException {
+        ObjectContent obj = storage.getObject(title, extension);
+        return obj;
+    }
+
+    private void addToCategoryFilter(String category, String title) throws IOException {
         ArrayList<String> itemsList = categoryRegister.get(category);
-        // if list does not exist create it
         if(itemsList == null) {
-            itemsList = new ArrayList<String>();
-            itemsList.add(title);
-            categoryRegister.put(category, itemsList);
+            addElement(category, title);
         } else {
-            // add if item is not already in list
             if(!itemsList.contains(title)) itemsList.add(title);
         }
         update_FileHash(categoryRegister,"CategoryRegister_hash.data");
     }
 
+    private void addElement(String category, String title) {
+        ArrayList<String> itemsList;
+        itemsList = new ArrayList<>();
+        itemsList.add(title);
+        categoryRegister.put(category, itemsList);
+    }
 
+    private String getSerialValue(ObjectContent obj) {
+        return String.valueOf((obj.getTitle()+obj.getExtension()).hashCode());
+    }
+
+    private String getSerialValue(String title, String extension) {
+        return String.valueOf((title+extension).hashCode());
+    }
+
+    private boolean checkIntegrity(ObjectContent obj, BigInteger checksum) throws IOException, NoSuchAlgorithmException {
+        if (checksum.compareTo(CheckSum.getFrom(obj)) != 0) {
+            System.out.println("Wrong checksum");
+            return true;
+        }
+        return false;
+    }
+
+    private void writeObjectContent(ObjectContent obj, String serial) throws IOException {
+        storageWriter.writeObjectContent(obj, serial);
+        newContentCallback();
+    }
+
+    private void update_FileHash(Map <String,?> hashMap, String file_name){
+        storageWriter.updateLocalHash(hashMap, file_name);
+    }
+
+    private HashMap<String, ?> recoverHash(Map <String, ?> hashMap, String file_name){
+        return storageWriter.recoverLocalHash(file_name);
+    }
+
+
+    private void recoverData(){
+        categoryRegister = (Map<String, ArrayList<String>>) recoverHash(categoryRegister ,"CategoryRegister_hash.data");
+    }
 
 }

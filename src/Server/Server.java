@@ -2,7 +2,7 @@ package Server;
 
 import Interface.ClientNotifier;
 import Implementation.Storage;
-import Interface.StoreServers;
+import Interface.CoordinatorServer;
 
 import java.rmi.Naming;
 import java.io.BufferedReader;
@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by arnau on 11/11/2017.
  */
-public class Server  extends UnicastRemoteObject {
+public class Server extends UnicastRemoteObject {
 
     private static String RMI_STORE;
     private static String IP;
@@ -63,7 +63,7 @@ public class Server  extends UnicastRemoteObject {
                 e.printStackTrace();
             }
 
-            StoreServers storageServers = connectToMaster();
+            CoordinatorServer storageServers = connectToMaster();
             Storage store = new Storage(storageServers, RMI_STORE);
             startRegistry();
 
@@ -75,7 +75,7 @@ public class Server  extends UnicastRemoteObject {
         }
     }
 
-    public static StoreServers connectToMaster() throws IOException, NotBoundException {
+    public static CoordinatorServer connectToMaster() throws IOException, NotBoundException {
         System.out.println("Give me, IP addres of master server: ");
         String ip = new BufferedReader(new InputStreamReader(System.in)).readLine();
 
@@ -84,7 +84,7 @@ public class Server  extends UnicastRemoteObject {
 
         String RMI_MASTER_STORE = "rmi://"+ip+":"+port+"/storage";
 
-        return (StoreServers) Naming.lookup(RMI_MASTER_STORE);
+        return (CoordinatorServer) Naming.lookup(RMI_MASTER_STORE);
     }
 
     private static void startRegistry() throws RemoteException{

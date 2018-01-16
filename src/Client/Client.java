@@ -2,40 +2,42 @@ package Client;
 
 
 import Implementation.Notifier;
-import Interface.StoreData;
+import Interface.FileStorage;
+import SecurityLayer.AESSecurity;
+import SecurityLayer.CheckSum;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
-/**
- * Created by arnau on 11/11/2017.
- */
+
 public class Client {
 
     private static String RMI_STORE;
+    private static AESSecurity aes;
 
-
-    private static void getContent(StoreData storage, String title, String extension, String savePath) throws IOException, NotBoundException, ClassNotFoundException {
+    private static void getContent(FileStorage storage, String title, String extension, String savePath) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException {
         ObjectContent recover = storage.getObject(title, extension);
         if (recover == null) {
             return;
         }
         try {
             System.out.println("Content downloaded");
-            recover.writeFile(savePath);
+            recover.writeFile(savePath, aes);
         }catch (IOException e){
             System.out.println("File not avaible");
             return;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    private static void getFromCategory(StoreData storage, String category) throws RemoteException{
+    private static void getFromCategory(FileStorage storage, String category) throws RemoteException{
         ArrayList<String> listContents = storage.getCategoryFilter(category);
         if (listContents == null) {
             System.out.println("List of contents with a extension  '" + category + "' is empty.");
@@ -48,16 +50,13 @@ public class Client {
 
     }
 
-    private static void newContent(StoreData storage, String path, String extension, String name)throws RemoteException{
-        ObjectContent obj = new ObjectContent(path, extension, name);
-        if (obj.getTitle() == null) {
-            //System.out.println();
-            return;
-        }
-        storage.storeObject(obj);
+    private static void newContent(FileStorage storage, String path, String extension, String name) throws Exception {
+        ObjectContent obj = new ObjectContent(path, extension, name, aes);
+
+        storage.storeObject(obj, CheckSum.getFrom(obj));
     }
 
-    private static void actionAddContent(StoreData storage) throws IOException {
+    private static void actionAddContent(FileStorage storage) throws Exception {
         System.out.println("Title of content : ");
         String contentName = new BufferedReader(new InputStreamReader(System.in)).readLine();
 
@@ -69,7 +68,7 @@ public class Client {
         newContent(storage, path, extension, contentName);
     }
 
-    private static void actionGetContent(String contentName, String extension, StoreData storage, String savePath) throws RemoteException {
+    private static void actionGetContent(String contentName, String extension, FileStorage storage, String savePath) throws RemoteException {
         try {
             getContent(storage, contentName, extension, savePath);
         } catch (Exception e) {
@@ -77,8 +76,8 @@ public class Client {
         }
     }
 
-    public static void main(String[] args) {
-        try {
+    public static void main(String[] args) throws Exception {
+
 
             System.out.println(" ██████╗██╗     ██╗███████╗███╗   ██╗████████╗\n" +
                     "██╔════╝██║     ██║██╔════╝████╗  ██║╚══██╔══╝\n" +
@@ -99,9 +98,10 @@ public class Client {
             String port = bufferRead.readLine();
 
             RMI_STORE = "rmi://"+ip+":"+port+"/storage";
+            aes = new AESSecurity("paSSwordPassword");
 
             //RECUPEREM EL OBJECTE REMOT REGISTRAT PEL SERVIDOR, ENS AFEGIM COM A CALLBACK.
-            StoreData storage = (StoreData) Naming.lookup(RMI_STORE);
+            FileStorage storage = (FileStorage) Naming.lookup(RMI_STORE);
             Notifier notifier = new Notifier();
             storage.addCallback(notifier);
 
@@ -133,16 +133,6 @@ public class Client {
                 }
             }
 
-
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (NotBoundException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }  catch(IOException e) {
-            e.printStackTrace();
-        }
     }
 
 
