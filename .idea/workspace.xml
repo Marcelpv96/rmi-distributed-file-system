@@ -1,28 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="79447c70-11f3-4815-a391-cc8d1e49b32c" name="Default" comment="security">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/contenido2pdf/contenido2pdfout.data" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/contenidopdf/contenidopdfout.data" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MyTube/Implementation/StorageServers.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MyTube/Interface/StoreData.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MyTube/Interface/StoreServers.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/MyTube/MasterServer/MasterServer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Implementation/StorageServers.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Interface/StoreData.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Interface/StoreServers.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/MasterServer/MasterServer.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MyTube/Client/Client.class" afterPath="$PROJECT_DIR$/out/production/MyTube/Client/Client.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MyTube/Client/ObjectContent.class" afterPath="$PROJECT_DIR$/out/production/MyTube/Client/ObjectContent.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MyTube/Implementation/Storage.class" afterPath="$PROJECT_DIR$/out/production/MyTube/Implementation/Storage.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/MyTube/Server/Server.class" afterPath="$PROJECT_DIR$/out/production/MyTube/Server/Server.class" />
+    <list default="true" id="79447c70-11f3-4815-a391-cc8d1e49b32c" name="Default" comment="Major Refactoring">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/CoordinatorModule/CoordinatorModule.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Implementation/Coordinator.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Implementation/StorageWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Implementation/StorageWriterBase.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Interface/CoordinatorServer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Interface/FileStorage.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/SecurityLayer/AESSecurity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/SecurityLayer/CheckSum.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/SecurityLayer/FileSecurity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CategoryRegister_hash.data" afterPath="$PROJECT_DIR$/CategoryRegister_hash.data" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Client/Client.java" afterPath="$PROJECT_DIR$/src/Client/Client.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Client/ObjectContent.java" afterPath="$PROJECT_DIR$/src/Client/ObjectContent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Implementation/Storage.java" afterPath="$PROJECT_DIR$/src/Implementation/Storage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Interface/ClientNotifier.java" afterPath="$PROJECT_DIR$/src/Interface/ClientNotifier.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Server/Server.java" afterPath="$PROJECT_DIR$/src/Server/Server.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -114,24 +103,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="workspace.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="workspace.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="24" column="41" lean-forward="false" selection-start-line="24" selection-start-column="41" selection-end-line="24" selection-end-column="41" />
+            <state relative-caret-position="414">
+              <caret line="32" column="23" lean-forward="true" selection-start-line="32" selection-start-column="23" selection-end-line="32" selection-end-column="23" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StorageWriterBase.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="StorageWriterBase.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Implementation/StorageWriterBase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
+            <state relative-caret-position="252">
+              <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -731,7 +718,14 @@
       <option name="project" value="LOCAL" />
       <updated>1515873764980</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Major Refactoring">
+      <created>1516115015454</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1516115015454</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -753,14 +747,14 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32979977" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32979977" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3289183" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32781458" sideWeight="0.50213444" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32781458" sideWeight="0.49786553" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286219" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32781458" sideWeight="0.49786553" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32781458" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286219" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -789,7 +783,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="security" />
-    <option name="LAST_COMMIT_MESSAGE" value="security" />
+    <MESSAGE value="Major Refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="Major Refactoring" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -817,6 +812,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1188">
           <caret line="79" column="38" lean-forward="false" selection-start-line="79" selection-start-column="38" selection-end-line="79" selection-end-column="38" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -855,6 +851,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
           <caret line="23" column="28" lean-forward="false" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -938,6 +935,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="506">
           <caret line="44" column="2" lean-forward="false" selection-start-line="44" selection-start-column="2" selection-end-line="44" selection-end-column="2" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1056,16 +1054,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Implementation/StorageWriterBase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Implementation/StorageWriter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="630">
@@ -1123,8 +1111,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="24" column="41" lean-forward="false" selection-start-line="24" selection-start-column="41" selection-end-line="24" selection-end-column="41" />
+        <state relative-caret-position="414">
+          <caret line="32" column="23" lean-forward="true" selection-start-line="32" selection-start-column="23" selection-end-line="32" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Implementation/StorageWriterBase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
           <folding />
         </state>
       </provider>
