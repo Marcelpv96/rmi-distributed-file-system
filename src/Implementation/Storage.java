@@ -30,7 +30,6 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         this.storageServers = storageServers;
         this.address = address;
         this.storageWriter = new StorageWriter();
-        recoverData();
     }
 
     @Override
@@ -156,13 +155,6 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         storageWriter.updateLocalHash(hashMap, file_name);
     }
 
-    private HashMap<String, ?> recoverHash(Map <String, ?> hashMap, String file_name){
-        return storageWriter.recoverLocalHash(file_name);
-    }
 
-
-    private void recoverData(){
-        categoryRegister = (Map<String, ArrayList<String>>) recoverHash(categoryRegister ,"CategoryRegister_hash.data");
-    }
 
 }

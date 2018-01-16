@@ -2,6 +2,9 @@ package Implementation;
 
 import Interface.CoordinatorServer;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -16,13 +19,15 @@ public class Coordinator extends UnicastRemoteObject implements CoordinatorServe
 
     private static Map<String, String> serverContents;
     private static Map<String, ArrayList<String>> categories;
+    private static StorageWriter storageWriter;
 
     public Coordinator() throws RemoteException {
         super();
+        this.storageWriter = new StorageWriter();
         serverContents = new HashMap<>();
         categories = new HashMap<>();
+        recoverData();
     }
-
 
     @Override
     public ArrayList<String> getCategory(String category){
@@ -31,10 +36,21 @@ public class Coordinator extends UnicastRemoteObject implements CoordinatorServe
 
     @Override
     public void addCategory(String extension, String title){
-        categories.get(extension).add(title);
+            if (categories.get(extension) == null) {
+                ArrayList<String> list = new ArrayList<>();
+                list.add(title);
+                categories.put(extension, list);
+            }
+            else {
+                categories.get(extension).add(title);
+            }
+            update_FileHash(categories, "CategoryRegister_hash.data");
+
     }
 
-
+    private void update_FileHash(Map <String,?> hashMap, String file_name){
+        storageWriter.updateLocalHash(hashMap, file_name);
+    }
 
     @Override
     public void addServer(String address, String content) throws RemoteException{
@@ -46,5 +62,13 @@ public class Coordinator extends UnicastRemoteObject implements CoordinatorServe
         return serverContents.get(content);
     }
 
+    private HashMap<String, ?> recoverHash(Map <String, ?> hashMap, String file_name){
+        return storageWriter.recoverLocalHash(file_name);
+    }
+
+
+    private void recoverData(){
+        categories = (Map<String, ArrayList<String>>) recoverHash(categories ,"CategoryRegister_hash.data");
+    }
 
 }
