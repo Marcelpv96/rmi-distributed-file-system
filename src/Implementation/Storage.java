@@ -41,6 +41,7 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
             writeObjectContent(obj, serial);
             storageServers.addCategory(obj.getExtension(), obj.getTitle());
             storageServers.addServer(address, serial);
+            storageServers.addFileFromUser(obj.getUser(), serial);
 
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
@@ -73,8 +74,10 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         File f = new File(serial + "/" + serial + "out.data");
         if (f.exists()) {
             object = getObjectContent(f);
+            System.out.println("User:" + object.getUser());
         } else {
-            String serverAdress = storageServers.getServer(String.valueOf((title+extension).hashCode()));
+            String serverAdress = storageServers.getServer(getSerialValue(title, extension));
+            //TODO
             return recoverRemote(title, extension, serverAdress);
         }
         return object;

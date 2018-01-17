@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class Client {
 
     private static String RMI_STORE;
+    private static String user;
     private static AESSecurity aes;
 
     private static void getContent(FileStorage storage, String title, String extension, String savePath) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException {
@@ -51,7 +52,7 @@ public class Client {
     }
 
     private static void newContent(FileStorage storage, String path, String extension, String name, Boolean encrypt) throws Exception {
-        ObjectContent obj = new ObjectContent(path, extension, name, encrypt, aes);
+        ObjectContent obj = new ObjectContent(path, extension, name, encrypt, aes, user);
 
         storage.storeObject(obj, CheckSum.getFrom(obj));
     }
@@ -88,6 +89,10 @@ public class Client {
                     "                                             ");
             System.out.println("");
             BufferedReader bufferRead;
+
+            System.out.println("Give me your user(REMEMBER IT): ");
+            bufferRead = new BufferedReader(new InputStreamReader(System.in));
+            user = bufferRead.readLine();
 
             System.out.println("Give me, Server IP (never use 127.0.0.1 or localhost): ");
             bufferRead = new BufferedReader(new InputStreamReader(System.in));

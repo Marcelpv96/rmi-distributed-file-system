@@ -13,15 +13,17 @@ public class ObjectContent implements Serializable {
     private static final long serialVersionUID = 1L;
     private String title;
     private String extension;
+    private String user;
     private boolean encrypted;
     private byte[] data;
 
     public ObjectContent (){}
 
-    public ObjectContent(String path, String extension, String name, Boolean encrypt, AESSecurity aes) throws Exception {
+    public ObjectContent(String path, String extension, String name, Boolean encrypt, AESSecurity aes, String user) throws Exception {
         this.title = name;
         this.extension = extension;
         this.encrypted = encrypt;
+        this.user = user;
         byte[] raw = getBytes(Paths.get(path));
 
         if (encrypt) data = aes.encryptFromBytes(raw);
@@ -84,5 +86,21 @@ public class ObjectContent implements Serializable {
 
     public void setData(byte[] data) {
         this.data = data;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public boolean isEncrypted() {
+        return encrypted;
+    }
+
+    public void setEncrypted(boolean encrypted) {
+        this.encrypted = encrypted;
     }
 }
