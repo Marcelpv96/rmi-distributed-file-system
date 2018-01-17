@@ -2,7 +2,6 @@ package CoordinatorModule;
 
 
 import Implementation.Coordinator;
-import Interface.ClientNotifier;
 import Interface.CoordinatorServer;
 
 import java.io.BufferedReader;
@@ -13,15 +12,12 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CoordinatorModule extends UnicastRemoteObject {
 
-    private static String RMI_STORE;
+    private static String RMI_COORDINATOR;
     private static String IP;
     private static String PORT;
-    private static List<ClientNotifier> clientsCallback = new ArrayList<ClientNotifier>();
 
     public CoordinatorModule() throws RemoteException {
         super();
@@ -29,7 +25,7 @@ public class CoordinatorModule extends UnicastRemoteObject {
 
     public static void main(String[] args) {
         try {
-            System.out.println("███╗   ███╗ █████╗ ███████╗████████╗███████╗██████╗     ███████╗███████╗██████╗ ██╗   ██╗███████╗██████╗ \n" +
+            System.out.println("DO YOU KNOW DA WAE ███╗   ███╗ █████╗ ███████╗████████╗███████╗██████╗     ███████╗███████╗██████╗ ██╗   ██╗███████╗██████╗ \n" +
                     "████╗ ████║██╔══██╗██╔════╝╚══██╔══╝██╔════╝██╔══██╗    ██╔════╝██╔════╝██╔══██╗██║   ██║██╔════╝██╔══██╗\n" +
                     "██╔████╔██║███████║███████╗   ██║   █████╗  ██████╔╝    ███████╗█████╗  ██████╔╝██║   ██║█████╗  ██████╔╝\n" +
                     "██║╚██╔╝██║██╔══██║╚════██║   ██║   ██╔══╝  ██╔══██╗    ╚════██║██╔══╝  ██╔══██╗╚██╗ ██╔╝██╔══╝  ██╔══██╗\n" +
@@ -43,7 +39,7 @@ public class CoordinatorModule extends UnicastRemoteObject {
                 System.out.println("Give me a PORT: ");
                 bufferRead = new BufferedReader(new InputStreamReader(System.in));
                 PORT = bufferRead.readLine();
-                RMI_STORE = "rmi://" + IP + ":" + PORT + "/storage";
+                RMI_COORDINATOR = "rmi://" + IP + ":" + PORT + "/storage";
             }
             catch(IOException e)
             {
@@ -53,8 +49,8 @@ public class CoordinatorModule extends UnicastRemoteObject {
             CoordinatorServer store = new Coordinator();
             startRegistry();
 
-            Naming.rebind(RMI_STORE, store);
-            System.out.println("Server started storage at "+ RMI_STORE);
+            Naming.rebind(RMI_COORDINATOR, store);
+            System.out.println("Server started storage at "+ RMI_COORDINATOR);
 
         } catch (Exception e) {
             e.printStackTrace();

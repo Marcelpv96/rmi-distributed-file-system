@@ -13,15 +13,20 @@ public class ObjectContent implements Serializable {
     private static final long serialVersionUID = 1L;
     private String title;
     private String extension;
+    private boolean encrypted;
     private byte[] data;
 
     public ObjectContent (){}
 
-    public ObjectContent(String path, String extension, String name, AESSecurity aes) throws Exception {
+    public ObjectContent(String path, String extension, String name, Boolean encrypt, AESSecurity aes) throws Exception {
         this.title = name;
         this.extension = extension;
+        this.encrypted = encrypt;
         byte[] raw = getBytes(Paths.get(path));
-        data = aes.encryptFromBytes(raw);
+
+        if (encrypt) data = aes.encryptFromBytes(raw);
+        else data = raw;
+
     }
 
     private byte[] getBytes(Path filePath) throws IOException {
@@ -34,16 +39,30 @@ public class ObjectContent implements Serializable {
         OutputStream out;
         try {
             out = new FileOutputStream(savePath + title + "." + extension);
-            byte[] decrypted = aes.decryptFromBytes(data);
-            if (decrypted != null) {
-                out.write(aes.decryptFromBytes(data));
+            if(encrypted) {
+                byte[] decrypted = aes.decryptFromBytes(data);
+
+                if (contentNotNull(decrypted)) {
+                    out.write(aes.decryptFromBytes(data));
+                }
+
+                out.close();
+            } else {
+
+                if (contentNotNull(data)) {
+                    out.write(data);
+                }
+
+                out.close();
             }
-            out.close();
         } catch (IOException e) {
             System.out.println("WRITE ERROR: content doesn't exist");
         }
     }
 
+    private boolean contentNotNull(byte[] content) {
+        return content != null;
+    }
 
     public String getTitle() {
         return title;

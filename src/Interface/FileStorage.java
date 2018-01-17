@@ -10,9 +10,6 @@ import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
-/**
- * Created by arnau on 11/11/2017.
- */
 public interface FileStorage extends Remote {
 
     void storeObject(ObjectContent obj, BigInteger checksum) throws IOException, NoSuchAlgorithmException;

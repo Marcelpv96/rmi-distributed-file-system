@@ -7,9 +7,6 @@ import sun.misc.BASE64Encoder;
 import sun.misc.BASE64Decoder;
 import javax.crypto.spec.SecretKeySpec;
 
-/**
- * Created by adt5 on 16/01/18.
- */
 public class AESSecurity implements FileSecurity {
 
 

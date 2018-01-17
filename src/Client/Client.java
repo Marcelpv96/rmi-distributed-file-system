@@ -50,13 +50,13 @@ public class Client {
 
     }
 
-    private static void newContent(FileStorage storage, String path, String extension, String name) throws Exception {
-        ObjectContent obj = new ObjectContent(path, extension, name, aes);
+    private static void newContent(FileStorage storage, String path, String extension, String name, Boolean encrypt) throws Exception {
+        ObjectContent obj = new ObjectContent(path, extension, name, encrypt, aes);
 
         storage.storeObject(obj, CheckSum.getFrom(obj));
     }
 
-    private static void actionAddContent(FileStorage storage) throws Exception {
+    private static void actionAddContent(FileStorage storage, Boolean encrypt) throws Exception {
         System.out.println("Title of content : ");
         String contentName = new BufferedReader(new InputStreamReader(System.in)).readLine();
 
@@ -65,7 +65,7 @@ public class Client {
 
         System.out.println("Path of content (give me full path or drop the file in the console): ");
         String path = new BufferedReader(new InputStreamReader(System.in)).readLine();
-        newContent(storage, path, extension, contentName);
+        newContent(storage, path, extension, contentName, encrypt);
     }
 
     private static void actionGetContent(String contentName, String extension, FileStorage storage, String savePath) throws RemoteException {
@@ -110,29 +110,49 @@ public class Client {
                 System.out.println("What do you want to do? (upload) (download) (exit) (list)");
                 String choice = new BufferedReader(new InputStreamReader(System.in)).readLine();
                 if (choice.equals("upload")){
-                    actionAddContent(storage);
+                    uploadInterface(storage);
                 }
                 else if (choice.equals("download")){
-                    System.out.println("Title of content : ");
-                    String contentName = new BufferedReader(new InputStreamReader(System.in)).readLine();
-                    System.out.println("Extension of content : ");
-                    String extension = new BufferedReader(new InputStreamReader(System.in)).readLine();
-                    System.out.println("Path where you (client) want to save the content : ");
-                    String savePath = new BufferedReader(new InputStreamReader(System.in)).readLine();
-                    actionGetContent(contentName, extension, storage, savePath);
+                    downloadInterface(storage);
                 }else if (choice.equals("exit")){
                     storage.removeCallback(notifier);
                     System.exit(1);
                 }else if (choice.equals("list")){
-                    System.out.println("Give me a extension type and I will list all content with that extension , like for example 'pdf' :");
-                    String extension = new BufferedReader(new InputStreamReader(System.in)).readLine();
-                    getFromCategory(storage, extension);
+                    listInterface(storage);
                 }
                 else{
                     System.out.println("Commands: <download>, <upload>, <exit>");
                 }
             }
 
+    }
+
+    private static void uploadInterface(FileStorage storage) throws Exception {
+        System.out.println("Encrpytion(y/n) : ");
+        String encryption = new BufferedReader(new InputStreamReader(System.in)).readLine();
+        if(encryption.equals("y")) {
+            actionAddContent(storage, true);
+        } else if (encryption.equals("n")) {
+            actionAddContent(storage, false);
+        } else {
+            System.out.println("Commands: <download>, <upload>, <exit>");
+        }
+    }
+
+    private static void listInterface(FileStorage storage) throws IOException {
+        System.out.println("Give me a extension type and I will list all content with that extension , like for example 'pdf' :");
+        String extension = new BufferedReader(new InputStreamReader(System.in)).readLine();
+        getFromCategory(storage, extension);
+    }
+
+    private static void downloadInterface(FileStorage storage) throws IOException {
+        System.out.println("Title of content : ");
+        String contentName = new BufferedReader(new InputStreamReader(System.in)).readLine();
+        System.out.println("Extension of content : ");
+        String extension = new BufferedReader(new InputStreamReader(System.in)).readLine();
+        System.out.println("Path where you (client) want to save the content : ");
+        String savePath = new BufferedReader(new InputStreamReader(System.in)).readLine();
+        actionGetContent(contentName, extension, storage, savePath);
     }
 
 

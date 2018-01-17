@@ -1,8 +1,5 @@
 package SecurityLayer;
 
-/**
- * Created by adt5 on 16/01/18.
- */
 public interface FileSecurity {
 
     String encryptFromString(String data) throws Exception;

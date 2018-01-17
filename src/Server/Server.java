@@ -16,9 +16,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by arnau on 11/11/2017.
- */
 public class Server extends UnicastRemoteObject {
 
     private static String RMI_STORE;

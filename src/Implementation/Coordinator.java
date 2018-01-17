@@ -2,37 +2,39 @@ package Implementation;
 
 import Interface.CoordinatorServer;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Marcelpv96 on 15/1/18.
- */
-
 public class Coordinator extends UnicastRemoteObject implements CoordinatorServer {
 
     private static Map<String, String> serverContents;
     private static Map<String, ArrayList<String>> categories;
+    private static Map<String, ArrayList<String>> users;
     private static StorageWriter storageWriter;
 
     public Coordinator() throws RemoteException {
         super();
-        this.storageWriter = new StorageWriter();
+        storageWriter = new StorageWriter();
         serverContents = new HashMap<>();
         categories = new HashMap<>();
-        recoverData();
+        users = new HashMap<>();
+        recoverCategoriesData();
+        recoverUsersData();
     }
 
     @Override
     public ArrayList<String> getCategory(String category){
         return categories.get(category);
     }
+
+    @Override
+    public ArrayList<String> getFileFrom(String user){
+        return users.get(user);
+    }
+
 
     @Override
     public void addCategory(String extension, String title){
@@ -44,7 +46,21 @@ public class Coordinator extends UnicastRemoteObject implements CoordinatorServe
             else {
                 categories.get(extension).add(title);
             }
-            update_FileHash(categories, "CategoryRegister_hash.data");
+            update_FileHash(categories, "categoriesDB.data");
+
+    }
+
+    @Override
+    public void addFileFromUser(String user, String file) {
+        if (users.get(user) == null) {
+            ArrayList<String> list = new ArrayList<>();
+            list.add(file);
+            users.put(user, list);
+        }
+        else {
+            users.get(user).add(file);
+        }
+        update_FileHash(users, "usersDB.data");
 
     }
 
@@ -66,9 +82,12 @@ public class Coordinator extends UnicastRemoteObject implements CoordinatorServe
         return storageWriter.recoverLocalHash(file_name);
     }
 
+    private void recoverCategoriesData(){
+        categories = (Map<String, ArrayList<String>>) recoverHash(categories ,"categoriesDB.data");
+    }
 
-    private void recoverData(){
-        categories = (Map<String, ArrayList<String>>) recoverHash(categories ,"CategoryRegister_hash.data");
+    private void recoverUsersData(){
+        users = (Map<String, ArrayList<String>>) recoverHash(users ,"usersDB.data");
     }
 
 }

@@ -6,9 +6,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by adt5 on 16/01/18.
- */
 public interface StorageWriterBase {
 
     void updateLocalHash(Map<String, ?> hashMap, String file_name);

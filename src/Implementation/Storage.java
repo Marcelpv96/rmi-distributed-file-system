@@ -15,12 +15,9 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Storage extends UnicastRemoteObject implements FileStorage {
 
-    private static Map<String, ArrayList<String>> categoryRegister;
     private CoordinatorServer storageServers;
     private StorageWriter storageWriter;
     private String address;
@@ -40,13 +37,12 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         String serial = getSerialValue(obj);
 
         try {
-            addToCategoryFilter(obj.getExtension(), obj.getTitle());
             new File(serial).mkdirs();
             writeObjectContent(obj, serial);
             storageServers.addCategory(obj.getExtension(), obj.getTitle());
             storageServers.addServer(address, serial);
 
-        } catch (Exception e) {//Catch exception if any
+        } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         }
 
@@ -113,23 +109,6 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         return obj;
     }
 
-    private void addToCategoryFilter(String category, String title) throws IOException {
-        ArrayList<String> itemsList = categoryRegister.get(category);
-        if(itemsList == null) {
-            addElement(category, title);
-        } else {
-            if(!itemsList.contains(title)) itemsList.add(title);
-        }
-        update_FileHash(categoryRegister,"CategoryRegister_hash.data");
-    }
-
-    private void addElement(String category, String title) {
-        ArrayList<String> itemsList;
-        itemsList = new ArrayList<>();
-        itemsList.add(title);
-        categoryRegister.put(category, itemsList);
-    }
-
     private String getSerialValue(ObjectContent obj) {
         return String.valueOf((obj.getTitle()+obj.getExtension()).hashCode());
     }
@@ -150,11 +129,6 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         storageWriter.writeObjectContent(obj, serial);
         newContentCallback();
     }
-
-    private void update_FileHash(Map <String,?> hashMap, String file_name){
-        storageWriter.updateLocalHash(hashMap, file_name);
-    }
-
 
 
 }
