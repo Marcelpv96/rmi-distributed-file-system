@@ -1,6 +1,5 @@
 package CoordinatorModule;
 
-
 import Implementation.Coordinator;
 import Interface.CoordinatorServer;
 
