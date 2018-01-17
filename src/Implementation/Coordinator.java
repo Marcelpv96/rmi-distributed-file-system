@@ -77,6 +77,20 @@ public class Coordinator extends UnicastRemoteObject implements CoordinatorServe
         return serverContents.get(content);
     }
 
+    @Override
+    public boolean removeServer(String address, String content) throws RemoteException {
+        return serverContents.remove(address, content);
+    }
+
+    @Override
+    public boolean removeCategory(String extension, String title) throws RemoteException {
+        categories.get(extension).remove(title);
+        if (categories.get(extension).size() == 0) {
+            categories.remove(extension);
+        }
+        return true;
+    }
+
     private HashMap<String, ?> recoverHash(Map <String, ?> hashMap, String file_name){
         return storageWriter.recoverLocalHash(file_name);
     }
@@ -88,5 +102,7 @@ public class Coordinator extends UnicastRemoteObject implements CoordinatorServe
     private void recoverUsersData(){
         users = (Map<String, ArrayList<String>>) recoverHash(users ,"usersDB.data");
     }
+
+
 
 }

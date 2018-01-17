@@ -6,6 +6,8 @@ import Interface.FileStorage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.rmi.NotBoundException;
+import java.security.NoSuchAlgorithmException;
 
 public class ClientInterface {
 
@@ -16,7 +18,7 @@ public class ClientInterface {
     }
 
     public void showInterface(FileStorage storage, Notifier notifier) throws Exception {
-        System.out.println("What do you want to do? (upload) (download) (exit) (list)");
+        System.out.println("What do you want to do? (upload) (download) (delete) (exit) (list)");
         String choice = new BufferedReader(new InputStreamReader(System.in)).readLine();
         if (choice.equals("upload")){
             uploadInterface(storage);
@@ -28,9 +30,11 @@ public class ClientInterface {
             System.exit(1);
         }else if (choice.equals("list")){
             listInterface(storage);
+        }else if(choice.equals("delete")) {
+            deleteInterface(storage);
         }
         else{
-            System.out.println("Commands: <download>, <upload>, <exit>");
+            System.out.println("Commands: <download>, <upload>, <delete>, <exit>");
         }
     }
 
@@ -42,7 +46,7 @@ public class ClientInterface {
         } else if (encryption.equals("n")) {
             service.actionAddContent(storage, false);
         } else {
-            System.out.println("Commands: <download>, <upload>, <exit>");
+            System.out.println("Commands: <download>, <upload>, <delete>, <exit>");
         }
     }
 
@@ -60,6 +64,14 @@ public class ClientInterface {
         System.out.println("Path where you (client) want to save the content : ");
         String savePath = new BufferedReader(new InputStreamReader(System.in)).readLine();
         service.actionGetContent(contentName, extension, storage, savePath);
+    }
+
+    public void deleteInterface(FileStorage storage) throws IOException, NoSuchAlgorithmException, NotBoundException, ClassNotFoundException {
+        System.out.println("Title of content : ");
+        String contentName = new BufferedReader(new InputStreamReader(System.in)).readLine();
+        System.out.println("Extension of content : ");
+        String extension = new BufferedReader(new InputStreamReader(System.in)).readLine();
+        service.deleteContent(contentName, extension, storage);
     }
 
 }

@@ -31,7 +31,7 @@ public class ClientService {
         request.setTitle(title);
         request.setUser(user);
 
-        ObjectContent recover = storage.getObjectFromUser(request);
+        ObjectContent recover = storage.getObject(request);
         if (recover == null) {
             return;
         }
@@ -85,4 +85,16 @@ public class ClientService {
         }
     }
 
+    public void deleteContent(String contentName, String extension, FileStorage storage) throws ClassNotFoundException, NotBoundException, NoSuchAlgorithmException, IOException {
+        ObjectRequest request = new ObjectRequest();
+        request.setUser(user);
+        request.setTitle(contentName);
+        request.setExtension(extension);
+        System.out.println("service");
+        if (storage.deleteObject(request)) {
+            System.out.println("Delete succeed.");
+        } else {
+            System.out.println("Delete failed.");
+        }
+    }
 }

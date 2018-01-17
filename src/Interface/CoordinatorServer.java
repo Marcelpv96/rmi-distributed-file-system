@@ -15,4 +15,8 @@ public interface CoordinatorServer extends Remote{
 
     void addFileFromUser(String user, String file) throws  RemoteException;
     ArrayList<String> getFileFrom(String user) throws  RemoteException;
+
+    boolean removeServer(String address, String content) throws RemoteException;
+
+    boolean removeCategory(String extension, String title) throws RemoteException;
 }

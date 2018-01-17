@@ -13,10 +13,13 @@ import java.util.ArrayList;
 
 public interface FileStorage extends Remote {
 
-    void storeObject(ObjectContent obj, BigInteger checksum) throws IOException, NoSuchAlgorithmException;
-    ObjectContent getObjectFromUser(ObjectRequest request) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException;
+    void storeObject(ObjectContent obj, BigInteger checksum) throws RemoteException, IOException, NoSuchAlgorithmException;
+    ObjectContent getObject(ObjectRequest request) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException;
     void addCallback(ClientNotifier client) throws RemoteException;
     void removeCallback(ClientNotifier client) throws RemoteException;
+    void modifyObject(ObjectContent obj, BigInteger checksum) throws RemoteException, IOException, NoSuchAlgorithmException;
+    boolean deleteObject(ObjectRequest request) throws IOException, ClassNotFoundException, NotBoundException, NoSuchAlgorithmException;
     ArrayList<String> getCategoryFilter(String category) throws RemoteException;
-    ObjectContent getObject(String title, String extension) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException;
+    ObjectContent getLocalObject(String title, String extension) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException;
+
 }
