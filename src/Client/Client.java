@@ -1,6 +1,5 @@
 package Client;
 
-
 import DataTransferProtocol.ObjectContent;
 import DataTransferProtocol.ObjectRequest;
 import Implementation.Notifier;
@@ -16,7 +15,6 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-
 
 public class Client {
 
