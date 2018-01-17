@@ -7,5 +7,4 @@ public interface FileSecurity {
     byte[] encryptFromBytes(byte[] data) throws Exception;
     byte[] decryptFromBytes(byte[] data) throws Exception;
 
-
 }
