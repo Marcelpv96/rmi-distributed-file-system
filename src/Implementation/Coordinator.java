@@ -35,7 +35,6 @@ public class Coordinator extends UnicastRemoteObject implements CoordinatorServe
         return users.get(user);
     }
 
-
     @Override
     public void addCategory(String extension, String title){
             if (categories.get(extension) == null) {

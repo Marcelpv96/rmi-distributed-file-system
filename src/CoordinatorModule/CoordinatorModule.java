@@ -23,38 +23,29 @@ public class CoordinatorModule extends UnicastRemoteObject {
         super();
     }
 
-    public static void main(String[] args) {
-        try {
-            System.out.println("███╗   ███╗ █████╗ ███████╗████████╗███████╗██████╗     ███████╗███████╗██████╗ ██╗   ██╗███████╗██████╗ \n" +
-                    "████╗ ████║██╔══██╗██╔════╝╚══██╔══╝██╔════╝██╔══██╗    ██╔════╝██╔════╝██╔══██╗██║   ██║██╔════╝██╔══██╗\n" +
-                    "██╔████╔██║███████║███████╗   ██║   █████╗  ██████╔╝    ███████╗█████╗  ██████╔╝██║   ██║█████╗  ██████╔╝\n" +
-                    "██║╚██╔╝██║██╔══██║╚════██║   ██║   ██╔══╝  ██╔══██╗    ╚════██║██╔══╝  ██╔══██╗╚██╗ ██╔╝██╔══╝  ██╔══██╗\n" +
-                    "██║ ╚═╝ ██║██║  ██║███████║   ██║   ███████╗██║  ██║    ███████║███████╗██║  ██║ ╚████╔╝ ███████╗██║  ██║\n" +
-                    "╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝    ╚══════╝╚══════╝╚═╝  ╚═╝  ╚═══╝  ╚══════╝╚═╝  ╚═");
-            System.out.println("");
-            System.out.println("Give me, your IP_Address (never use 127.0.0.1 or localhost): ");
-            try{
-                BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
-                IP = bufferRead.readLine();
-                System.out.println("Give me a PORT: ");
-                bufferRead = new BufferedReader(new InputStreamReader(System.in));
-                PORT = bufferRead.readLine();
-                RMI_COORDINATOR = "rmi://" + IP + ":" + PORT + "/storage";
-            }
-            catch(IOException e)
-            {
-                e.printStackTrace();
-            }
+    public static void main(String[] args) throws IOException {
+        System.out.println("███╗   ███╗ █████╗ ███████╗████████╗███████╗██████╗     ███████╗███████╗██████╗ ██╗   ██╗███████╗██████╗ \n" +
+                "████╗ ████║██╔══██╗██╔════╝╚══██╔══╝██╔════╝██╔══██╗    ██╔════╝██╔════╝██╔══██╗██║   ██║██╔════╝██╔══██╗\n" +
+                "██╔████╔██║███████║███████╗   ██║   █████╗  ██████╔╝    ███████╗█████╗  ██████╔╝██║   ██║█████╗  ██████╔╝\n" +
+                "██║╚██╔╝██║██╔══██║╚════██║   ██║   ██╔══╝  ██╔══██╗    ╚════██║██╔══╝  ██╔══██╗╚██╗ ██╔╝██╔══╝  ██╔══██╗\n" +
+                "██║ ╚═╝ ██║██║  ██║███████║   ██║   ███████╗██║  ██║    ███████║███████╗██║  ██║ ╚████╔╝ ███████╗██║  ██║\n" +
+                "╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝    ╚══════╝╚══════╝╚═╝  ╚═╝  ╚═══╝  ╚══════╝╚═╝  ╚═");
+        System.out.println("");
+        System.out.println("Give me, your IP_Address (never use 127.0.0.1 or localhost): ");
 
-            CoordinatorServer store = new Coordinator();
-            startRegistry();
+        BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+        IP = bufferRead.readLine();
+        System.out.println("Give me a PORT: ");
+        bufferRead = new BufferedReader(new InputStreamReader(System.in));
+        PORT = bufferRead.readLine();
+        RMI_COORDINATOR = "rmi://" + IP + ":" + PORT + "/storage";
 
-            Naming.rebind(RMI_COORDINATOR, store);
-            System.out.println("Server started storage at "+ RMI_COORDINATOR);
+        CoordinatorServer store = new Coordinator();
+        startRegistry();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Naming.rebind(RMI_COORDINATOR, store);
+        System.out.println("Server started storage at "+ RMI_COORDINATOR);
+
     }
 
     private static void startRegistry() throws RemoteException{

@@ -67,7 +67,7 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
     }
 
     @Override
-    public ObjectContent getObjectFromUser( ObjectRequest request) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException {
+    public ObjectContent getObjectFromUser(ObjectRequest request) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException {
 
         ObjectContent object;
         String title = request.getTitle();
