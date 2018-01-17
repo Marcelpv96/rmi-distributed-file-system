@@ -2,9 +2,6 @@ package DataTransferProtocol;
 
 import java.io.Serializable;
 
-/**
- * Created by adt5 on 17/01/18.
- */
 public class ObjectRequest implements Serializable {
 
     private static final long serialVersionUID = 1L;
