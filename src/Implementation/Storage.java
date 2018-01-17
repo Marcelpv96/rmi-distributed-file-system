@@ -1,6 +1,6 @@
 package Implementation;
 
-import Client.ObjectContent;
+import DataTransferProtocol.ObjectContent;
 import DataTransferProtocol.ObjectRequest;
 import Interface.ClientNotifier;
 import Interface.FileStorage;
@@ -71,13 +71,9 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
 
         ObjectContent object;
         String title = request.getTitle();
-        System.out.println(title);
         String extension = request.getExtension();
-        System.out.println(extension);
-
         String user = request.getUser();
         String serial = getSerialValue(title, extension);
-
 
         System.out.println("Server retrieving "+ title+ "." + extension + ":" + serial);
         File f = new File(serial + "/" + serial + "out.data");

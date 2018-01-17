@@ -1,6 +1,6 @@
 package Interface;
 
-import Client.ObjectContent;
+import DataTransferProtocol.ObjectContent;
 import DataTransferProtocol.ObjectRequest;
 
 import java.io.IOException;

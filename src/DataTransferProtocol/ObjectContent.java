@@ -1,4 +1,4 @@
-package Client;
+package DataTransferProtocol;
 
 import SecurityLayer.AESSecurity;
 
@@ -45,7 +45,7 @@ public class ObjectContent implements Serializable {
                 byte[] decrypted = aes.decryptFromBytes(data);
 
                 if (contentNotNull(decrypted)) {
-                    out.write(aes.decryptFromBytes(data));
+                    out.write(decrypted);
                 }
 
                 out.close();

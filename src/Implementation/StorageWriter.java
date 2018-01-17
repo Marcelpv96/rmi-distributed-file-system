@@ -1,6 +1,6 @@
 package Implementation;
 
-import Client.ObjectContent;
+import DataTransferProtocol.ObjectContent;
 
 import java.io.*;
 import java.util.HashMap;
