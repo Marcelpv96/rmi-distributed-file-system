@@ -1,6 +1,7 @@
 package Implementation;
 
 import Client.ObjectContent;
+import DataTransferProtocol.ObjectRequest;
 import Interface.ClientNotifier;
 import Interface.FileStorage;
 import Interface.CoordinatorServer;
@@ -66,6 +67,37 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
     }
 
     @Override
+    public ObjectContent getObjectFromUser( ObjectRequest request) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException {
+
+        ObjectContent object;
+        String title = request.getTitle();
+        System.out.println(title);
+        String extension = request.getExtension();
+        System.out.println(extension);
+
+        String user = request.getUser();
+        String serial = getSerialValue(title, extension);
+
+
+        System.out.println("Server retrieving "+ title+ "." + extension + ":" + serial);
+        File f = new File(serial + "/" + serial + "out.data");
+        String serverAdress = storageServers.getServer(getSerialValue(title, extension));
+
+        ArrayList<String> owned = storageServers.getFileFrom(user);
+        if(owned == null) {
+            System.out.println("USER NO UPLOAD");
+            return null;
+        }
+        if (owned.stream().anyMatch(o -> o.equals(getSerialValue(title, extension)))) {
+            System.out.println("USER IS OWNER");
+            return recoverRemote(title, extension, serverAdress);
+        }
+        System.out.println("USER NOT OWNER");
+        return null;
+
+    }
+
+    @Override
     public ObjectContent getObject(String title, String extension) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException {
 
         ObjectContent object;
@@ -74,11 +106,8 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         File f = new File(serial + "/" + serial + "out.data");
         if (f.exists()) {
             object = getObjectContent(f);
-            System.out.println("User:" + object.getUser());
         } else {
-            String serverAdress = storageServers.getServer(getSerialValue(title, extension));
-            //TODO
-            return recoverRemote(title, extension, serverAdress);
+            return null;
         }
         return object;
     }
@@ -98,7 +127,7 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
 
     private ObjectContent recoverRemote(String title, String extension, String remote) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException {
         FileStorage storage = (FileStorage) Naming.lookup(remote);
-        ObjectContent object = recoverOtherServer(title, extension,storage);
+        ObjectContent object = recoverOtherServer(title, extension, storage);
         return object;
     }
 

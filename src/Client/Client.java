@@ -1,6 +1,7 @@
 package Client;
 
 
+import DataTransferProtocol.ObjectRequest;
 import Implementation.Notifier;
 import Interface.FileStorage;
 import SecurityLayer.AESSecurity;
@@ -23,7 +24,13 @@ public class Client {
     private static AESSecurity aes;
 
     private static void getContent(FileStorage storage, String title, String extension, String savePath) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException {
-        ObjectContent recover = storage.getObject(title, extension);
+
+        ObjectRequest request = new ObjectRequest();
+        request.setExtension(extension);
+        request.setTitle(title);
+        request.setUser(user);
+
+        ObjectContent recover = storage.getObjectFromUser(request);
         if (recover == null) {
             return;
         }
