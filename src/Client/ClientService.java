@@ -4,7 +4,6 @@ import DataTransferProtocol.ObjectContent;
 import DataTransferProtocol.ObjectRequest;
 import Interface.FileStorage;
 import SecurityLayer.AESSecurity;
-import SecurityLayer.CheckSum;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -60,9 +59,7 @@ public class ClientService {
     }
 
     public void newContent(FileStorage storage, String path, String extension, String name, Boolean encrypt) throws Exception {
-        ObjectContent obj = new ObjectContent(path, extension, name, encrypt, aes, user);
 
-        storage.storeObject(obj, CheckSum.getFrom(obj));
     }
 
     public void actionAddContent(FileStorage storage, Boolean encrypt) throws Exception {
@@ -97,4 +94,31 @@ public class ClientService {
             System.out.println("Delete failed.");
         }
     }
+
+    public void modifyTitle(String oldTitle, String extension, String newTitle, FileStorage storage) throws Exception {
+        ObjectRequest request = new ObjectRequest();
+        request.setUser(user);
+        request.setTitle(oldTitle);
+        request.setExtension(extension);
+        System.out.println("service");
+        if (storage.modifyObject(request, newTitle)) {
+            System.out.println("Modify succeed.");
+        } else {
+            System.out.println("Modify failed.");
+        }
+    }
+
+    public void modifyContent(String path, String title, String extension, FileStorage storage) throws Exception {
+        ObjectRequest request = new ObjectRequest();
+        request.setUser(user);
+        request.setTitle(title);
+        request.setExtension(extension);
+        System.out.println("service");
+        if (storage.modifyContentObject(request, path)) {
+            System.out.println("Modify succeed.");
+        } else {
+            System.out.println("Modify failed.");
+        }
+    }
+
 }

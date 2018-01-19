@@ -3,14 +3,16 @@ package Implementation;
 import DataTransferProtocol.ObjectContent;
 import DataTransferProtocol.ObjectRequest;
 import Interface.ClientNotifier;
-import Interface.FileStorage;
 import Interface.CoordinatorServer;
+import Interface.FileStorage;
 import SecurityLayer.CheckSum;
 import Server.Server;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.math.BigInteger;
-import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -94,6 +96,53 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
             return false;
         }
 
+    }
+
+    @Override
+    public boolean modifyObject(ObjectRequest request, String newTitle) throws Exception {
+        String title = request.getTitle();
+        String extension = request.getExtension();
+        String user = request.getUser();
+        String serial = getSerialValue(title, extension);
+        ObjectContent newObjcontent;
+        System.out.println("Server modifyObject "+ title+ "." + extension + ":" + serial);
+
+        ArrayList<String> owned = storageServers.getFileFrom(user);
+        if (owned.stream().anyMatch(o -> o.equals(getSerialValue(title, extension)))) {
+            System.out.println("is owner");
+            newObjcontent = new ObjectContent(getObject(request));
+            newObjcontent.setTitle(newTitle);
+            if (deleteObject(request)){
+                storeObject(newObjcontent, CheckSum.getFrom(newObjcontent));
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean modifyContentObject(ObjectRequest request, String path) throws Exception {
+        String title = request.getTitle();
+        String extension = request.getExtension();
+        String user = request.getUser();
+        String serial = getSerialValue(title, extension);
+        ObjectContent newObjcontent;
+        System.out.println("Server modify content of Object "+ title+ "." + extension + ":" + serial);
+
+        ArrayList<String> owned = storageServers.getFileFrom(user);
+        if (owned.stream().anyMatch(o -> o.equals(getSerialValue(title, extension)))) {
+            System.out.println("is owner");
+            newObjcontent = new ObjectContent(getObject(request), path);
+            if (deleteObject(request)){
+                storeObject(newObjcontent, CheckSum.getFrom(newObjcontent));
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -194,29 +243,6 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         fi.close();
 
         return object;
-    }
-
-    // TODO
-    @Override
-    public void modifyObject(ObjectContent obj, BigInteger checksum) throws IOException, NoSuchAlgorithmException {
-        if (obj == null) return;
-        if (checkIntegrity(obj, checksum)) return;
-
-        String serial = getSerialValue(obj);
-
-        try {
-            new File(serial).mkdirs();
-            writeObjectContent(obj, serial);
-            storageServers.addCategory(obj.getExtension(), obj.getTitle());
-
-            // TODO MODIFY SERVERS DB
-            storageServers.addServer(address, serial);
-            storageServers.addFileFromUser(obj.getUser(), serial);
-
-        } catch (Exception e) {
-            System.err.println("Error: " + e.getMessage());
-        }
-
     }
 
 }

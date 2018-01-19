@@ -18,7 +18,7 @@ public class ClientInterface {
     }
 
     public void showInterface(FileStorage storage, Notifier notifier) throws Exception {
-        System.out.println("What do you want to do? (upload) (download) (delete) (exit) (list)");
+        System.out.println("What do you want to do? (upload) (download) (delete) (exit) (list) (modify)");
         String choice = new BufferedReader(new InputStreamReader(System.in)).readLine();
         if (choice.equals("upload")){
             uploadInterface(storage);
@@ -32,9 +32,11 @@ public class ClientInterface {
             listInterface(storage);
         }else if(choice.equals("delete")) {
             deleteInterface(storage);
+        }else if(choice.equals("modify")) {
+            modifyInterface(storage);
         }
         else{
-            System.out.println("Commands: <download>, <upload>, <delete>, <exit>");
+            System.out.println("Commands: <download>, <upload>, <delete>, <exit>, <modify>");
         }
     }
 
@@ -46,7 +48,7 @@ public class ClientInterface {
         } else if (encryption.equals("n")) {
             service.actionAddContent(storage, false);
         } else {
-            System.out.println("Commands: <download>, <upload>, <delete>, <exit>");
+            System.out.println("Commands: <download>, <upload>, <delete>, <exit>, <modify>");
         }
     }
 
@@ -74,4 +76,29 @@ public class ClientInterface {
         service.deleteContent(contentName, extension, storage);
     }
 
+
+    public void modifyInterface(FileStorage storage) throws Exception {
+        System.out.println("You have two options, modify the title or modify the content, What do you want? say <title> or <content> : ");
+        String option = new BufferedReader(new InputStreamReader(System.in)).readLine();
+        if (option.equals("title")){
+            System.out.println("What title do you want to modify? ");
+            String oldTitle = new BufferedReader(new InputStreamReader(System.in)).readLine();
+            System.out.println("Extension of content : ");
+            String extension = new BufferedReader(new InputStreamReader(System.in)).readLine();
+            System.out.println("New title do you want ? ");
+            String newTitle = new BufferedReader(new InputStreamReader(System.in)).readLine();
+            service.modifyTitle(oldTitle, extension, newTitle, storage);
+        }else if (option.equals("content")){
+            System.out.println("What title do you want to modify? ");
+            String title = new BufferedReader(new InputStreamReader(System.in)).readLine();
+            System.out.println("Extension of content : ");
+            String extension = new BufferedReader(new InputStreamReader(System.in)).readLine();
+            System.out.println("Path of new content: ");
+            String path = new BufferedReader(new InputStreamReader(System.in)).readLine();
+            service.modifyContent(path, extension, title, storage);
+        }else{
+            System.out.println("Rememeber the options: ");
+            modifyInterface(storage);
+        }
+    }
 }

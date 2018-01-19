@@ -15,6 +15,7 @@ public class ObjectContent implements Serializable {
     private String user;
     private boolean encrypted;
     private byte[] data;
+    private AESSecurity aes;
 
     public ObjectContent (){}
 
@@ -24,9 +25,31 @@ public class ObjectContent implements Serializable {
         this.encrypted = encrypt;
         this.user = user;
         byte[] raw = getBytes(Paths.get(path));
-
+        this.aes = aes;
         if (encrypt) data = aes.encryptFromBytes(raw);
         else data = raw;
+
+    }
+
+    public ObjectContent(ObjectContent obj, String path) throws Exception {
+        this.title = obj.getTitle();
+        this.extension = obj.getExtension();
+        this.encrypted = obj.isEncrypted();
+        this.user = obj.getUser();
+        byte[] raw = getBytes(Paths.get(path));
+        this.aes = obj.getAes();
+        if (encrypted) data = aes.encryptFromBytes(raw);
+        else data = raw;
+
+    }
+
+    public ObjectContent(ObjectContent obj) throws Exception {
+        this.title = obj.getTitle();
+        this.extension = obj.getExtension();
+        this.encrypted = obj.isEncrypted();
+        this.user = obj.getUser();
+        this.aes = obj.getAes();
+        byte[] raw = obj.getData();
 
     }
 
@@ -60,6 +83,9 @@ public class ObjectContent implements Serializable {
             System.out.println("WRITE ERROR: content doesn't exist");
         }
     }
+
+
+    public AESSecurity getAes(){ return aes;}
 
     private boolean contentNotNull(byte[] content) {
         return content != null;
