@@ -267,7 +267,7 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
 
         ObjectContent obj = getLocalObject(title, extension);
         obj.setTitle(newTitle);
-        System.out.println("GET");
+        System.out.println("Modifying local:");
         try {
             new File(newSerial).mkdirs();
             writeObjectContent(obj, newSerial);
