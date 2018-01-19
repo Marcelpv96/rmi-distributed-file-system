@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="79447c70-11f3-4815-a391-cc8d1e49b32c" name="Default" comment="Handlers">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+    <list default="true" id="79447c70-11f3-4815-a391-cc8d1e49b32c" name="Default" comment="Modify">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Client/ClientInterface.java" afterPath="$PROJECT_DIR$/src/Client/ClientInterface.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Client/ClientService.java" afterPath="$PROJECT_DIR$/src/Client/ClientService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Implementation/Coordinator.java" afterPath="$PROJECT_DIR$/src/Implementation/Coordinator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Implementation/Storage.java" afterPath="$PROJECT_DIR$/src/Implementation/Storage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Interface/CoordinatorServer.java" afterPath="$PROJECT_DIR$/src/Interface/CoordinatorServer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Interface/FileStorage.java" afterPath="$PROJECT_DIR$/src/Interface/FileStorage.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,7 +20,16 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="108">
               <caret line="6" column="26" lean-forward="false" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
-              <folding />
+              <folding>
+                <marker date="1516370374463" expanded="true" signature="2591:2592" ph="{...}" />
+                <marker date="1516370374463" expanded="false" signature="2644:2655" ph=" { " />
+                <marker date="1516370374463" expanded="false" signature="2678:2684" ph=" }" />
+                <marker date="1516370374463" expanded="false" signature="2714:2725" ph=" { " />
+                <marker date="1516370374463" expanded="false" signature="2738:2744" ph=" }" />
+                <marker date="1516370374463" expanded="true" signature="2780:2800" ph="{...}" />
+                <marker date="1516370374463" expanded="false" signature="2841:2852" ph=" { " />
+                <marker date="1516370374463" expanded="false" signature="2871:2877" ph=" }" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -65,8 +67,8 @@
       <file leaf-file-name="Storage.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Implementation/Storage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="175" column="34" lean-forward="true" selection-start-line="175" selection-start-column="34" selection-end-line="175" selection-end-column="34" />
+            <state relative-caret-position="174">
+              <caret line="172" column="13" lean-forward="true" selection-start-line="172" selection-start-column="13" selection-end-line="172" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -89,7 +91,10 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="545">
               <caret line="100" column="37" lean-forward="false" selection-start-line="100" selection-start-column="37" selection-end-line="100" selection-end-column="37" />
-              <folding />
+              <folding>
+                <element signature="e#373#374#0" expanded="false" />
+                <element signature="e#411#412#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -774,7 +779,14 @@
       <option name="project" value="LOCAL" />
       <updated>1516191608167</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Modify">
+      <created>1516370341758</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1516370341758</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -803,7 +815,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32705882" sideWeight="0.50213444" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3317647" sideWeight="0.49786553" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2517647" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5611765" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3282353" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -897,7 +909,8 @@
     <MESSAGE value="CoordinatorModule throwing Exceptions" />
     <MESSAGE value="." />
     <MESSAGE value="lint" />
-    <option name="LAST_COMMIT_MESSAGE" value="lint" />
+    <MESSAGE value="Modify" />
+    <option name="LAST_COMMIT_MESSAGE" value="Modify" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1126,7 +1139,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="6" column="26" lean-forward="false" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
-          <folding />
+          <folding>
+            <marker date="1516370374463" expanded="true" signature="2591:2592" ph="{...}" />
+            <marker date="1516370374463" expanded="false" signature="2644:2655" ph=" { " />
+            <marker date="1516370374463" expanded="false" signature="2678:2684" ph=" }" />
+            <marker date="1516370374463" expanded="false" signature="2714:2725" ph=" { " />
+            <marker date="1516370374463" expanded="false" signature="2738:2744" ph=" }" />
+            <marker date="1516370374463" expanded="true" signature="2780:2800" ph="{...}" />
+            <marker date="1516370374463" expanded="false" signature="2841:2852" ph=" { " />
+            <marker date="1516370374463" expanded="false" signature="2871:2877" ph=" }" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1142,7 +1164,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="545">
           <caret line="100" column="37" lean-forward="false" selection-start-line="100" selection-start-column="37" selection-end-line="100" selection-end-column="37" />
-          <folding />
+          <folding>
+            <element signature="e#373#374#0" expanded="false" />
+            <element signature="e#411#412#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1172,8 +1197,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Implementation/Storage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="175" column="34" lean-forward="true" selection-start-line="175" selection-start-column="34" selection-end-line="175" selection-end-column="34" />
+        <state relative-caret-position="174">
+          <caret line="172" column="13" lean-forward="true" selection-start-line="172" selection-start-column="13" selection-end-line="172" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
