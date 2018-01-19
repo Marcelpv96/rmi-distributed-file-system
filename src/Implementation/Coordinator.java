@@ -63,6 +63,12 @@ public class Coordinator extends UnicastRemoteObject implements CoordinatorServe
 
     }
 
+    @Override
+    public boolean removeFileFromUser(String user, String serial) throws RemoteException {
+        return users.remove(user, serial);
+
+    }
+
     private void update_FileHash(Map <String,?> hashMap, String file_name){
         storageWriter.updateLocalHash(hashMap, file_name);
     }

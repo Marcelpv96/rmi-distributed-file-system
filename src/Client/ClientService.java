@@ -90,11 +90,30 @@ public class ClientService {
         request.setUser(user);
         request.setTitle(contentName);
         request.setExtension(extension);
-        System.out.println("service");
+        System.out.println("Deleting Content:");
         if (storage.deleteObject(request)) {
             System.out.println("Delete succeed.");
         } else {
             System.out.println("Delete failed.");
         }
+    }
+
+    public void modifyTitle(String oldTitle, String extension, String newTitle, FileStorage storage) throws IOException, NoSuchAlgorithmException, NotBoundException, ClassNotFoundException, InterruptedException {
+        ObjectRequest request = new ObjectRequest();
+        request.setUser(user);
+        request.setTitle(oldTitle);
+        request.setExtension(extension);
+        System.out.println("Modifying Title of Content:");
+        if (storage.modifyObject(request, newTitle)) {
+            System.out.println("Delete succeed.");
+        } else {
+            System.out.println("Delete failed.");
+        }
+    }
+
+    public void modifyContent(String path, String extension, String title, boolean encryption, FileStorage storage) throws Exception {
+        ObjectContent obj = new ObjectContent(path, extension, title, encryption, aes, user);
+
+        storage.modifyObject(obj);
     }
 }

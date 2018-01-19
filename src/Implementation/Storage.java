@@ -10,7 +10,6 @@ import Server.Server;
 
 import java.io.*;
 import java.math.BigInteger;
-import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -145,6 +144,45 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         return object;
     }
 
+    @Override
+    public Boolean modifyObject(ObjectContent obj) throws RemoteException {
+
+        String title = obj.getTitle();
+        String extension = obj.getExtension();
+        String user = obj.getUser();
+        String serial = getSerialValue(title, extension);
+
+        String serverAddress = storageServers.getServer(getSerialValue(title, extension));
+        System.out.println("Server modifyObject "+ title+ "." + extension + ":" + serial);
+
+        ArrayList<String> owned = storageServers.getFileFrom(user);
+        if (owned.stream().anyMatch(o -> o.equals(getSerialValue(title, extension)))) {
+            System.out.println("is owner");
+            if (address.equals(serverAddress)) {
+                return modifyLocalObject(title, extension, obj);
+            }
+            //return modifyRemote(request, newTitle, serverAddress);
+        }
+        return false;
+    }
+
+    private Boolean modifyLocalObject(String title, String extension, ObjectContent obj) throws RemoteException {
+        deleteLocal(title, extension);
+        String serial = getSerialValue(title, extension);
+        System.out.println("Modifying Local Object Content");
+        try {
+            new File(serial).mkdirs();
+            writeObjectContent(obj, serial);
+            storageServers.addCategory(extension, title);
+            storageServers.addServer(address, serial);
+            storageServers.addFileFromUser(obj.getUser(), serial);
+
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+
+        return true;
+    }
 
     private ObjectContent recoverRemote(String title, String extension, String remote) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException {
         FileStorage storage = (FileStorage) Naming.lookup(remote);
@@ -196,27 +234,55 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         return object;
     }
 
-    // TODO
+
     @Override
-    public void modifyObject(ObjectContent obj, BigInteger checksum) throws IOException, NoSuchAlgorithmException {
-        if (obj == null) return;
-        if (checkIntegrity(obj, checksum)) return;
+    public boolean modifyObject(ObjectRequest request, String newTitle) throws IOException, NoSuchAlgorithmException, NotBoundException, ClassNotFoundException, InterruptedException {
+        String title = request.getTitle();
+        String extension = request.getExtension();
+        String user = request.getUser();
+        String oldSerial = getSerialValue(title, extension);
 
-        String serial = getSerialValue(obj);
+        String serverAddress = storageServers.getServer(getSerialValue(title, extension));
+        System.out.println("Server modifyObject "+ title+ "." + extension + ":" + oldSerial);
 
+        ArrayList<String> owned = storageServers.getFileFrom(user);
+        if (owned.stream().anyMatch(o -> o.equals(getSerialValue(title, extension)))) {
+            System.out.println("is owner");
+            if (address.equals(serverAddress)) {
+                return modifyLocal(user, title, extension, newTitle);
+            }
+            return modifyRemote(request, newTitle, serverAddress);
+        }
+        return false;
+    }
+
+    private boolean modifyRemote(ObjectRequest request, String newTitle, String serverAddress) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException, InterruptedException {
+        FileStorage storage = (FileStorage) Naming.lookup(serverAddress);
+        return storage.modifyObject(request, newTitle);
+    }
+
+
+    private boolean modifyLocal(String user, String title, String extension, String newTitle) throws IOException, ClassNotFoundException, NotBoundException, NoSuchAlgorithmException, InterruptedException {
+        String newSerial = getSerialValue(newTitle, extension);
+
+        ObjectContent obj = getLocalObject(title, extension);
+        obj.setTitle(newTitle);
+        System.out.println("GET");
         try {
-            new File(serial).mkdirs();
-            writeObjectContent(obj, serial);
-            storageServers.addCategory(obj.getExtension(), obj.getTitle());
-
-            // TODO MODIFY SERVERS DB
-            storageServers.addServer(address, serial);
-            storageServers.addFileFromUser(obj.getUser(), serial);
+            new File(newSerial).mkdirs();
+            writeObjectContent(obj, newSerial);
+            storageServers.addCategory(extension, newTitle);
+            storageServers.addServer(address, newSerial);
+            storageServers.addFileFromUser(user, newSerial);
 
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         }
 
+        return deleteLocal(title, extension);
+
+
     }
+
 
 }
