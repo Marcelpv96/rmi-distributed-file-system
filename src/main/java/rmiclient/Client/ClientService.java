@@ -1,5 +1,6 @@
 package rmiclient.Client;
 
+import org.json.JSONException;
 import rmiprotocol.DataTransferProtocol.ObjectContent;
 import rmiprotocol.DataTransferProtocol.ObjectRequest;
 import rmiserver.Interface.FileStorage;
@@ -24,7 +25,7 @@ public class ClientService {
         this.aes = aes;
     }
 
-    public void getContent(FileStorage storage, String title, String extension, String savePath) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException {
+    public void getContent(FileStorage storage, String title, String extension, String savePath) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException, JSONException {
 
         ObjectRequest request = new ObjectRequest();
         request.setExtension(extension);
@@ -85,7 +86,7 @@ public class ClientService {
         }
     }
 
-    public void deleteContent(String contentName, String extension, FileStorage storage) throws ClassNotFoundException, NotBoundException, NoSuchAlgorithmException, IOException {
+    public void deleteContent(String contentName, String extension, FileStorage storage) throws ClassNotFoundException, NotBoundException, NoSuchAlgorithmException, IOException, JSONException {
         ObjectRequest request = new ObjectRequest();
         request.setUser(user);
         request.setTitle(contentName);
@@ -98,7 +99,7 @@ public class ClientService {
         }
     }
 
-    public void modifyTitle(String oldTitle, String extension, String newTitle, FileStorage storage) throws IOException, NoSuchAlgorithmException, NotBoundException, ClassNotFoundException, InterruptedException {
+    public void modifyTitle(String oldTitle, String extension, String newTitle, FileStorage storage) throws IOException, NoSuchAlgorithmException, NotBoundException, ClassNotFoundException, InterruptedException, JSONException {
         ObjectRequest request = new ObjectRequest();
         request.setUser(user);
         request.setTitle(oldTitle);

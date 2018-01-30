@@ -17,6 +17,7 @@ public class CoordinatorModule extends UnicastRemoteObject {
     private static String RMI_COORDINATOR;
     private static String IP;
     private static String PORT;
+    private static String WS;
 
     public CoordinatorModule() throws RemoteException {
         super();
@@ -38,8 +39,11 @@ public class CoordinatorModule extends UnicastRemoteObject {
         bufferRead = new BufferedReader(new InputStreamReader(System.in));
         PORT = bufferRead.readLine();
         RMI_COORDINATOR = "rmi://" + IP + ":" + PORT + "/storage";
+        System.out.println("Give me a Web Service address: ");
+        bufferRead = new BufferedReader(new InputStreamReader(System.in));
+        WS = bufferRead.readLine();
 
-        CoordinatorServer store = new Coordinator();
+        CoordinatorServer store = new Coordinator(WS);
         startRegistry();
 
         Naming.rebind(RMI_COORDINATOR, store);

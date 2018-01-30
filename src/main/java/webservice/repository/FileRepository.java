@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface FileRepository extends CrudRepository<File, Long> {
     File findByFileName(String fileName);
+    File findById(String id);
     List<File> findByEncrypted(String encrypted);
-    List<File> findByCategory(String Category);
+    List<File> findByExtension(String extension);
     List<File> findByUserName(String userName);
 }

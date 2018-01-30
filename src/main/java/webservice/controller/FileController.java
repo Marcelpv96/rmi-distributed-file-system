@@ -25,10 +25,16 @@ public class FileController {
         return fileService.fetchByFileName(fileName);
     }
 
-    @RequestMapping(value = "/file/category/{category}", method = RequestMethod.GET)
+    @RequestMapping(value = "/file/name/{id}", method = RequestMethod.GET)
     public @ResponseBody
-    List<File> fetchDataByCategory(@PathVariable("category") String category){
-        return fileService.fetchByCategory(category);
+    File fetchDataByID(@PathVariable("id") String id){
+        return fileService.fetchById(id);
+    }
+
+    @RequestMapping(value = "/file/extension/{extension}", method = RequestMethod.GET)
+    public @ResponseBody
+    List<File> fetchDataByCategory(@PathVariable("extension") String extension){
+        return fileService.fetchByExtension(extension);
     }
 
     @RequestMapping(value = "/file/encrypted/{encrypted}", method = RequestMethod.GET)

@@ -1,5 +1,6 @@
 package rmiclient.Client;
 
+import org.json.JSONException;
 import rmiserver.Implementation.Notifier;
 import rmiserver.Interface.FileStorage;
 
@@ -68,7 +69,7 @@ public class ClientInterface {
         service.actionGetContent(contentName, extension, storage, savePath);
     }
 
-    public void deleteInterface(FileStorage storage) throws IOException, NoSuchAlgorithmException, NotBoundException, ClassNotFoundException {
+    public void deleteInterface(FileStorage storage) throws IOException, NoSuchAlgorithmException, NotBoundException, ClassNotFoundException, JSONException {
         System.out.println("Title of content : ");
         String contentName = new BufferedReader(new InputStreamReader(System.in)).readLine();
         System.out.println("Extension of content : ");

@@ -22,14 +22,6 @@ public class FileService {
         return repository.findByFileName(fileName);
     }
 
-    public List<File> fetchByCategory(String category) {
-        List<File> result = new ArrayList<>();
-
-        for(File s: repository.findByCategory(category)){
-            result.add(s);
-        }
-        return result;
-    }
     public List<File> findAll(){
         return (List<File>) repository.findAll();
     }
@@ -53,5 +45,19 @@ public class FileService {
         }
         return result;
     }
+
+    public List<File> fetchByExtension(String extension) {
+        List<File> result = new ArrayList<>();
+
+        for(File s: repository.findByExtension(extension)){
+            result.add(s);
+        }
+        return result;
+    }
+
+    public File fetchById(String id) {
+        return repository.findById(id);
+    }
+
 }
 

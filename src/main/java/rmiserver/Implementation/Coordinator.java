@@ -1,7 +1,11 @@
 package rmiserver.Implementation;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import rmiprotocol.RequestProtocol.ProtocolObjectRequest;
 import rmiserver.Interface.CoordinatorServer;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -14,9 +18,11 @@ public class Coordinator extends UnicastRemoteObject implements CoordinatorServe
     private static Map<String, ArrayList<String>> categories;
     private static Map<String, ArrayList<String>> users;
     private static StorageWriter storageWriter;
+    private static String webserviceAddress;
 
-    public Coordinator() throws RemoteException {
+    public Coordinator(String webservice) throws RemoteException {
         super();
+        webserviceAddress = webservice;
         storageWriter = new StorageWriter();
         serverContents = new HashMap<>();
         categories = new HashMap<>();
@@ -27,11 +33,13 @@ public class Coordinator extends UnicastRemoteObject implements CoordinatorServe
 
     @Override
     public ArrayList<String> getCategory(String category){
+
         return categories.get(category);
     }
 
     @Override
     public ArrayList<String> getFileFrom(String user){
+
         return users.get(user);
     }
 
@@ -50,14 +58,24 @@ public class Coordinator extends UnicastRemoteObject implements CoordinatorServe
     }
 
     @Override
-    public void addFileFromUser(String user, String file) {
+    public void addFileFromUser(String user, String serial, String address, String extension, String title, Boolean isEncrypted) {
+
+        ProtocolObjectRequest.POST_call(
+                webserviceAddress+"/file",
+                user,
+                serial,
+                address,
+                extension,
+                title,
+                isEncrypted);
+
         if (users.get(user) == null) {
             ArrayList<String> list = new ArrayList<>();
-            list.add(file);
+            list.add(serial);
             users.put(user, list);
         }
         else {
-            users.get(user).add(file);
+            users.get(user).add(serial);
         }
         update_FileHash(users, "usersDB.data");
 
@@ -79,8 +97,10 @@ public class Coordinator extends UnicastRemoteObject implements CoordinatorServe
     }
 
     @Override
-    public String getServer(String content) throws RemoteException{
-        return serverContents.get(content);
+    public String getServer(String serial) throws IOException, JSONException {
+        JSONObject res = ProtocolObjectRequest.GET_call(webserviceAddress+"/file/name/"+serial);
+        // TODO maybe check if res == null
+        return res.getString("address");
     }
 
     @Override

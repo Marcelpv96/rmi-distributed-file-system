@@ -8,8 +8,8 @@ import java.io.Serializable;
 public class File implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @Column
+    private String id;
 
     @Column(name = "filename")
     private String fileName;
@@ -20,17 +20,17 @@ public class File implements Serializable {
     @Column(name = "encryped")
     private boolean encrypted;
 
-    @Column(name = "category")
-    private String category;
+    @Column(name = "extension")
+    private String extension;
 
     @Column(name = "address")
     private String address;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -42,12 +42,12 @@ public class File implements Serializable {
         this.fileName = fileName;
     }
 
-    public String getCategory() {
-        return category;
+    public String getExtension() {
+        return extension;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setExtension(String extension) {
+        this.extension = extension;
     }
 
     public String getAddress() {
@@ -80,6 +80,6 @@ public class File implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("File[id=%d, fileName='%s', address='%s', category=%s]", id, fileName, address, category);
+        return String.format("File[id=%d, fileName='%s', address='%s', category=%s]", id, fileName, address, extension);
     }
 }

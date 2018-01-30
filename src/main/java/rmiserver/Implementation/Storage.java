@@ -1,5 +1,6 @@
 package rmiserver.Implementation;
 
+import org.json.JSONException;
 import rmiprotocol.DataTransferProtocol.ObjectContent;
 import rmiprotocol.DataTransferProtocol.ObjectRequest;
 import rmiserver.Interface.ClientNotifier;
@@ -20,13 +21,13 @@ import java.util.ArrayList;
 
 public class Storage extends UnicastRemoteObject implements FileStorage {
 
-    private CoordinatorServer storageServers;
+    private CoordinatorServer coordinatorServer;
     private StorageWriter storageWriter;
     private String address;
 
-    public Storage(CoordinatorServer storageServers, String address) throws RemoteException {
+    public Storage(CoordinatorServer coordinatorServer, String address) throws RemoteException {
         super();
-        this.storageServers = storageServers;
+        this.coordinatorServer = coordinatorServer;
         this.address = address;
         this.storageWriter = new StorageWriter();
     }
@@ -41,9 +42,9 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         try {
             new File(serial).mkdirs();
             writeObjectContent(obj, serial);
-            storageServers.addCategory(obj.getExtension(), obj.getTitle());
-            storageServers.addServer(address, serial);
-            storageServers.addFileFromUser(obj.getUser(), serial);
+            coordinatorServer.addCategory(obj.getExtension(), obj.getTitle());
+            coordinatorServer.addServer(address, serial);
+            coordinatorServer.addFileFromUser(obj.getUser(), serial, address, obj.getExtension(), obj.getTitle(), obj.isEncrypted());
 
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
@@ -52,17 +53,17 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
     }
 
     @Override
-    public boolean deleteObject(ObjectRequest request) throws IOException, ClassNotFoundException, NotBoundException, NoSuchAlgorithmException {
+    public boolean deleteObject(ObjectRequest request) throws IOException, ClassNotFoundException, NotBoundException, NoSuchAlgorithmException, JSONException {
 
         String title = request.getTitle();
         String extension = request.getExtension();
         String user = request.getUser();
         String serial = getSerialValue(title, extension);
 
-        String serverAddress = storageServers.getServer(getSerialValue(title, extension));
+        String serverAddress = coordinatorServer.getServer(getSerialValue(title, extension));
         System.out.println("rmiserver.File deleteObject "+ title+ "." + extension + ":" + serial);
 
-        ArrayList<String> owned = storageServers.getFileFrom(user);
+        ArrayList<String> owned = coordinatorServer.getFileFrom(user);
         try {
             if (owned.stream().anyMatch(o -> o.equals(getSerialValue(title, extension)))) {
                 System.out.println("is owner");
@@ -77,7 +78,7 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         return false;
     }
 
-    private boolean deleteRemote(ObjectRequest request, String serverAddress) throws IOException, NotBoundException, NoSuchAlgorithmException, ClassNotFoundException {
+    private boolean deleteRemote(ObjectRequest request, String serverAddress) throws IOException, NotBoundException, NoSuchAlgorithmException, ClassNotFoundException, JSONException {
         FileStorage storage = (FileStorage) Naming.lookup(serverAddress);
         return storage.deleteObject(request);
     }
@@ -90,8 +91,8 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         if(f.delete()){
             folder.delete();
             System.out.println(f.getName() + " is deleted!");
-            storageServers.removeServer(address, serial);
-            storageServers.removeCategory(extension, title);
+            coordinatorServer.removeServer(address, serial);
+            coordinatorServer.removeCategory(extension, title);
             return true;
         }else{
             System.out.println("Delete operation is failed.");
@@ -102,7 +103,7 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
 
     @Override
     public ArrayList<String> getCategoryFilter(String category) throws RemoteException {
-        ArrayList<String> itemsList =  storageServers.getCategory(category);
+        ArrayList<String> itemsList =  coordinatorServer.getCategory(category);
         return itemsList;
     }
 
@@ -117,14 +118,14 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
     }
 
     @Override
-    public ObjectContent getObject(ObjectRequest request) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException {
+    public ObjectContent getObject(ObjectRequest request) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException, JSONException {
 
         String title = request.getTitle();
         String extension = request.getExtension();
         String serial = getSerialValue(title, extension);
 
         System.out.println("rmiserver.File getObject "+ title+ "." + extension + ":" + serial);
-        String serverAddress = storageServers.getServer(getSerialValue(title, extension));
+        String serverAddress = coordinatorServer.getServer(getSerialValue(title, extension));
 
         if(address.equals(serverAddress)) {
             return getLocalObject(title, extension);
@@ -149,17 +150,17 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
     }
 
     @Override
-    public boolean modifyObject(ObjectContent obj) throws RemoteException {
+    public boolean modifyObject(ObjectContent obj) throws IOException, JSONException {
 
         String title = obj.getTitle();
         String extension = obj.getExtension();
         String user = obj.getUser();
         String serial = getSerialValue(title, extension);
 
-        String serverAddress = storageServers.getServer(getSerialValue(title, extension));
+        String serverAddress = coordinatorServer.getServer(getSerialValue(title, extension));
         System.out.println("rmiserver.File modifyObject "+ title+ "." + extension + ":" + serial);
 
-        ArrayList<String> owned = storageServers.getFileFrom(user);
+        ArrayList<String> owned = coordinatorServer.getFileFrom(user);
         try {
             if (owned.stream().anyMatch(o -> o.equals(getSerialValue(title, extension)))) {
                 System.out.println("is owner");
@@ -183,9 +184,7 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         try {
             new File(serial).mkdirs();
             writeObjectContent(obj, serial);
-            storageServers.addCategory(extension, title);
-            storageServers.addServer(address, serial);
-            storageServers.addFileFromUser(obj.getUser(), serial);
+            coordinatorServer.addFileFromUser(obj.getUser(), serial, address, obj.getExtension(), obj.getTitle(), obj.isEncrypted());
 
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
@@ -250,16 +249,16 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
 
 
     @Override
-    public boolean modifyObject(ObjectRequest request, String newTitle) throws IOException, NoSuchAlgorithmException, NotBoundException, ClassNotFoundException, InterruptedException {
+    public boolean modifyObject(ObjectRequest request, String newTitle) throws IOException, NoSuchAlgorithmException, NotBoundException, ClassNotFoundException, InterruptedException, JSONException {
         String title = request.getTitle();
         String extension = request.getExtension();
         String user = request.getUser();
         String oldSerial = getSerialValue(title, extension);
 
-        String serverAddress = storageServers.getServer(getSerialValue(title, extension));
+        String serverAddress = coordinatorServer.getServer(getSerialValue(title, extension));
         System.out.println("rmiserver.File modifyObject "+ title+ "." + extension + ":" + oldSerial);
 
-        ArrayList<String> owned = storageServers.getFileFrom(user);
+        ArrayList<String> owned = coordinatorServer.getFileFrom(user);
         try {
             if (owned.stream().anyMatch(o -> o.equals(getSerialValue(title, extension)))) {
                 System.out.println("is owner");
@@ -274,12 +273,12 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         return false;
     }
 
-    private boolean modifyRemote(ObjectRequest request, String newTitle, String serverAddress) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException, InterruptedException {
+    private boolean modifyRemote(ObjectRequest request, String newTitle, String serverAddress) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException, InterruptedException, JSONException {
         FileStorage storage = (FileStorage) Naming.lookup(serverAddress);
         return storage.modifyObject(request, newTitle);
     }
 
-    private boolean modifyRemote(ObjectContent obj, String serverAddress) throws RemoteException, MalformedURLException, NotBoundException {
+    private boolean modifyRemote(ObjectContent obj, String serverAddress) throws IOException, NotBoundException, JSONException {
         FileStorage storage = (FileStorage) Naming.lookup(serverAddress);
         return storage.modifyObject(obj);
     }
@@ -293,9 +292,8 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         try {
             new File(newSerial).mkdirs();
             writeObjectContent(obj, newSerial);
-            storageServers.addCategory(extension, newTitle);
-            storageServers.addServer(address, newSerial);
-            storageServers.addFileFromUser(user, newSerial);
+
+            coordinatorServer.addFileFromUser(user, newSerial, address, extension, newTitle, obj.isEncrypted());
 
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());

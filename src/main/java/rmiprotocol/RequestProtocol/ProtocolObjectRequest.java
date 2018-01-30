@@ -14,7 +14,8 @@ import java.util.ArrayList;
 public class ProtocolObjectRequest {
 
 
-    public static void POST_call(String urlString, String name, Long id, String category, String address){
+
+    public static void POST_call(String urlString, String user, String file, String address, String extension, String title, Boolean isEncrypted) {
         try {
             URL url = new URL (urlString);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -22,11 +23,12 @@ public class ProtocolObjectRequest {
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");
 
-            File file = new File();
-            file.setId(id);
-            file.setFileName(name);
-            file.setCategory(category);
-            file.setAddress(address);
+            File f = new File();
+            f.setUserName(user);
+            f.setFileName(title);
+            f.setExtension(extension);
+            f.setAddress(address);
+            f.setEncrypted(isEncrypted);
 
             String input = new Gson().toJson(file);
 
