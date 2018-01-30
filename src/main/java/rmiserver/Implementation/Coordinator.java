@@ -98,7 +98,7 @@ public class Coordinator extends UnicastRemoteObject implements CoordinatorServe
 
     @Override
     public String getServer(String serial) throws IOException, JSONException {
-        JSONObject res = ProtocolObjectRequest.GET_call(webserviceAddress+"/file/name/"+serial);
+        JSONObject res = ProtocolObjectRequest.GET_call(webserviceAddress+"/file/id/"+serial);
         // TODO maybe check if res == null
         return res.getString("address");
     }

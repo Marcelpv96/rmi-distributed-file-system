@@ -25,7 +25,7 @@ public class FileController {
         return fileService.fetchByFileName(fileName);
     }
 
-    @RequestMapping(value = "/file/name/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/file/id/{id}", method = RequestMethod.GET)
     public @ResponseBody
     File fetchDataByID(@PathVariable("id") String id){
         return fileService.fetchById(id);

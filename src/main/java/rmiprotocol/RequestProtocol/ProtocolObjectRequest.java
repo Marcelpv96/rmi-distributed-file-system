@@ -15,7 +15,7 @@ public class ProtocolObjectRequest {
 
 
 
-    public static void POST_call(String urlString, String user, String file, String address, String extension, String title, Boolean isEncrypted) {
+    public static void POST_call(String urlString, String user, String serial, String address, String extension, String title, Boolean isEncrypted) {
         try {
             URL url = new URL (urlString);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -24,13 +24,14 @@ public class ProtocolObjectRequest {
             conn.setRequestProperty("Content-Type", "application/json");
 
             File f = new File();
+            f.setId(serial);
             f.setUserName(user);
             f.setFileName(title);
             f.setExtension(extension);
             f.setAddress(address);
             f.setEncrypted(isEncrypted);
 
-            String input = new Gson().toJson(file);
+            String input = new Gson().toJson(f);
 
             OutputStream wr= (conn.getOutputStream());
             wr.write(input.getBytes());

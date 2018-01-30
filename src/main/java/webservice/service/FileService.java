@@ -15,6 +15,7 @@ public class FileService {
     private FileRepository repository;
 
     public void saveFile(File file) {
+        file.setId(file.getId());
         repository.save(file);
     }
 
