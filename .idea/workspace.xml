@@ -2,12 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list id="2eaf778c-0b4e-4c93-9299-96b768ce3707" name="Revert: modify done" comment="" />
-    <list default="true" id="79447c70-11f3-4815-a391-cc8d1e49b32c" name="Default" comment="Delete file by id from db">
+    <list default="true" id="79447c70-11f3-4815-a391-cc8d1e49b32c" name="Default" comment="Delete completed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/rmiprotocol/RequestProtocol/ProtocolObjectRequest.java" afterPath="$PROJECT_DIR$/src/main/java/rmiprotocol/RequestProtocol/ProtocolObjectRequest.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/rmiclient/Client/ClientInterface.java" afterPath="$PROJECT_DIR$/src/main/java/rmiclient/Client/ClientInterface.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/rmiclient/Client/ClientService.java" afterPath="$PROJECT_DIR$/src/main/java/rmiclient/Client/ClientService.java" />
       <change beforePath="$PROJECT_DIR$/src/main/java/rmiserver/Implementation/Coordinator.java" afterPath="$PROJECT_DIR$/src/main/java/rmiserver/Implementation/Coordinator.java" />
       <change beforePath="$PROJECT_DIR$/src/main/java/rmiserver/Implementation/Storage.java" afterPath="$PROJECT_DIR$/src/main/java/rmiserver/Implementation/Storage.java" />
       <change beforePath="$PROJECT_DIR$/src/main/java/rmiserver/Interface/CoordinatorServer.java" afterPath="$PROJECT_DIR$/src/main/java/rmiserver/Interface/CoordinatorServer.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/rmiserver/Interface/FileStorage.java" afterPath="$PROJECT_DIR$/src/main/java/rmiserver/Interface/FileStorage.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/webservice/controller/FileController.java" afterPath="$PROJECT_DIR$/src/main/java/webservice/controller/FileController.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -23,13 +26,13 @@
       <file leaf-file-name="FileController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/webservice/controller/FileController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="181">
-              <caret line="46" column="24" lean-forward="false" selection-start-line="46" selection-start-column="24" selection-end-line="46" selection-end-column="24" />
+            <state relative-caret-position="192">
+              <caret line="31" column="5" lean-forward="false" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="5" />
               <folding>
-                <element signature="e#481#482#0" expanded="true" />
-                <element signature="e#523#524#0" expanded="true" />
-                <element signature="e#1610#1611#0" expanded="true" />
-                <element signature="e#1652#1653#0" expanded="true" />
+                <element signature="e#526#527#0" expanded="true" />
+                <element signature="e#568#569#0" expanded="true" />
+                <element signature="e#1655#1656#0" expanded="true" />
+                <element signature="e#1697#1698#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -38,8 +41,28 @@
       <file leaf-file-name="Storage.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/rmiserver/Implementation/Storage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="318">
-              <caret line="91" column="37" lean-forward="false" selection-start-line="91" selection-start-column="37" selection-end-line="91" selection-end-column="37" />
+            <state relative-caret-position="294">
+              <caret line="114" column="75" lean-forward="false" selection-start-line="114" selection-start-column="75" selection-end-line="114" selection-end-column="75" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClientInterface.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/rmiclient/Client/ClientInterface.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="433">
+              <caret line="69" column="30" lean-forward="false" selection-start-line="69" selection-start-column="30" selection-end-line="69" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClientService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/rmiclient/Client/ClientService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="343">
+              <caret line="137" column="54" lean-forward="false" selection-start-line="137" selection-start-column="54" selection-end-line="137" selection-end-column="54" />
               <folding />
             </state>
           </provider>
@@ -48,28 +71,18 @@
       <file leaf-file-name="CoordinatorServer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/rmiserver/Interface/CoordinatorServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+            <state relative-caret-position="234">
+              <caret line="18" column="90" lean-forward="false" selection-start-line="18" selection-start-column="90" selection-end-line="18" selection-end-column="90" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Coordinator.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Coordinator.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/rmiserver/Implementation/Coordinator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="164">
-              <caret line="88" column="41" lean-forward="false" selection-start-line="88" selection-start-column="41" selection-end-line="88" selection-end-column="41" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="File.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/webservice/model/File.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+            <state relative-caret-position="600">
+              <caret line="74" column="58" lean-forward="true" selection-start-line="74" selection-start-column="58" selection-end-line="74" selection-end-column="58" />
               <folding />
             </state>
           </provider>
@@ -85,11 +98,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ProtocolObjectRequest.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ProtocolObjectRequest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/rmiprotocol/RequestProtocol/ProtocolObjectRequest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="110" column="0" lean-forward="true" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
+            <state relative-caret-position="498">
+              <caret line="111" column="36" lean-forward="false" selection-start-line="111" selection-start-column="36" selection-end-line="111" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -98,18 +111,8 @@
       <file leaf-file-name="FileStorage.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/rmiserver/Interface/FileStorage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FileRepository.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/webservice/repository/FileRepository.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+            <state relative-caret-position="324">
+              <caret line="28" column="22" lean-forward="false" selection-start-line="28" selection-start-column="22" selection-end-line="28" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -139,8 +142,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>callback</find>
-      <find>ClientNOtifier</find>
       <find>addclientCAllback</find>
       <find>addcallback</find>
       <find>nullpoint</find>
@@ -168,6 +169,8 @@
       <find>remove</find>
       <find>d</find>
       <find>delete</find>
+      <find>deleteRemote</find>
+      <find>modify</find>
       <find>DELETE</find>
     </findStrings>
     <replaceStrings>
@@ -231,16 +234,16 @@
         <option value="$PROJECT_DIR$/src/main/java/rmicoordinator/CoordinatorModule/CoordinatorModule.java" />
         <option value="$PROJECT_DIR$/src/main/java/webservice/controller/UserController.java" />
         <option value="$PROJECT_DIR$/src/main/java/webservice/model/File.java" />
-        <option value="$PROJECT_DIR$/src/main/java/rmiserver/Interface/FileStorage.java" />
-        <option value="$PROJECT_DIR$/src/main/java/rmiclient/Client/ClientService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/rmiclient/Client/ClientInterface.java" />
-        <option value="$PROJECT_DIR$/src/main/java/webservice/controller/FileController.java" />
         <option value="$PROJECT_DIR$/src/main/java/webservice/repository/FileRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/webservice/service/FileService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/rmiprotocol/RequestProtocol/ProtocolObjectRequest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/webservice/controller/FileController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/rmiclient/Client/ClientInterface.java" />
+        <option value="$PROJECT_DIR$/src/main/java/rmiserver/Interface/FileStorage.java" />
+        <option value="$PROJECT_DIR$/src/main/java/rmiclient/Client/ClientService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/rmiserver/Implementation/Storage.java" />
         <option value="$PROJECT_DIR$/src/main/java/rmiserver/Interface/CoordinatorServer.java" />
         <option value="$PROJECT_DIR$/src/main/java/rmiserver/Implementation/Coordinator.java" />
-        <option value="$PROJECT_DIR$/src/main/java/rmiserver/Implementation/Storage.java" />
-        <option value="$PROJECT_DIR$/src/main/java/rmiprotocol/RequestProtocol/ProtocolObjectRequest.java" />
       </list>
     </option>
   </component>
@@ -305,6 +308,14 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="Client" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MyTube" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MyTube" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="rmiserver" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -324,6 +335,23 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="rmiserver" type="462c0819:PsiDirectoryNode" />
               <item name="Interface" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MyTube" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MyTube" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="webservice" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MyTube" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MyTube" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="webservice" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -872,7 +900,7 @@
       <workItem from="1517060910372" duration="4913000" />
       <workItem from="1517328871807" duration="8216000" />
       <workItem from="1517418274910" duration="1612000" />
-      <workItem from="1517420298409" duration="4782000" />
+      <workItem from="1517420298409" duration="6361000" />
     </task>
     <task id="LOCAL-00001" summary="security">
       <created>1515873764980</created>
@@ -1035,11 +1063,18 @@
       <option name="project" value="LOCAL" />
       <updated>1517422261034</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Delete completed">
+      <created>1517425295786</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1517425295786</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28257000" />
+    <option name="totallyTimeSpent" value="29836000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1171,7 +1206,8 @@
     <MESSAGE value="Post File and get File locally works" />
     <MESSAGE value="Filter by id, name, extension and user" />
     <MESSAGE value="Delete file by id from db" />
-    <option name="LAST_COMMIT_MESSAGE" value="Delete file by id from db" />
+    <MESSAGE value="Delete completed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Delete completed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1353,22 +1389,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/rmiclient/Client/ClientService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="124" column="16" lean-forward="false" selection-start-line="124" selection-start-column="16" selection-end-line="124" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/rmiclient/Client/ClientInterface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="433">
-          <caret line="63" column="69" lean-forward="false" selection-start-line="63" selection-start-column="69" selection-end-line="63" selection-end-column="69" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/rt.jar!/java/net/URLConnection.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="183">
@@ -1393,19 +1413,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/webservice/controller/FileController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="46" column="24" lean-forward="false" selection-start-line="46" selection-start-column="24" selection-end-line="46" selection-end-column="24" />
-          <folding>
-            <element signature="e#481#482#0" expanded="true" />
-            <element signature="e#523#524#0" expanded="true" />
-            <element signature="e#1610#1611#0" expanded="true" />
-            <element signature="e#1652#1653#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/webservice/service/FileService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="325">
@@ -1413,22 +1420,6 @@
           <folding>
             <element signature="e#1671#1672#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/rmiserver/Interface/FileStorage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/rmiserver/Interface/CoordinatorServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1440,26 +1431,71 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rmiprotocol/RequestProtocol/ProtocolObjectRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="498">
+          <caret line="111" column="36" lean-forward="false" selection-start-line="111" selection-start-column="36" selection-end-line="111" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rmiclient/Client/ClientInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="433">
+          <caret line="69" column="30" lean-forward="false" selection-start-line="69" selection-start-column="30" selection-end-line="69" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rmiclient/Client/ClientService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="343">
+          <caret line="137" column="54" lean-forward="false" selection-start-line="137" selection-start-column="54" selection-end-line="137" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rmiserver/Interface/FileStorage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="28" column="22" lean-forward="false" selection-start-line="28" selection-start-column="22" selection-end-line="28" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/rmiserver/Implementation/Storage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="91" column="37" lean-forward="false" selection-start-line="91" selection-start-column="37" selection-end-line="91" selection-end-column="37" />
+        <state relative-caret-position="294">
+          <caret line="114" column="75" lean-forward="false" selection-start-line="114" selection-start-column="75" selection-end-line="114" selection-end-column="75" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/rmiserver/Interface/CoordinatorServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="18" column="90" lean-forward="false" selection-start-line="18" selection-start-column="90" selection-end-line="18" selection-end-column="90" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/webservice/controller/FileController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="31" column="5" lean-forward="false" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="5" />
+          <folding>
+            <element signature="e#526#527#0" expanded="true" />
+            <element signature="e#568#569#0" expanded="true" />
+            <element signature="e#1655#1656#0" expanded="true" />
+            <element signature="e#1697#1698#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/rmiserver/Implementation/Coordinator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
-          <caret line="88" column="41" lean-forward="false" selection-start-line="88" selection-start-column="41" selection-end-line="88" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/rmiprotocol/RequestProtocol/ProtocolObjectRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="110" column="0" lean-forward="true" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
+        <state relative-caret-position="600">
+          <caret line="74" column="58" lean-forward="true" selection-start-line="74" selection-start-column="58" selection-end-line="74" selection-end-column="58" />
           <folding />
         </state>
       </provider>

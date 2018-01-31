@@ -26,4 +26,6 @@ public interface FileStorage extends Remote {
 
     ArrayList<String> getCategoryFilter(String category) throws IOException, JSONException;
     ArrayList<String> getUserFilter(String user) throws IOException, JSONException;
+    ArrayList<String> getNameFilter(String name) throws IOException, JSONException;
+
 }

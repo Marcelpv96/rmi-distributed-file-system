@@ -133,4 +133,16 @@ public class ClientService {
             System.out.println("- NAME: '" + content+"'.");
         }
     }
+
+    public void getFromName(FileStorage storage, String name) throws IOException, JSONException {
+        ArrayList<String> listContents = storage.getNameFilter(name);
+        if (listContents == null) {
+            System.out.println("List of contents with name  '" + name + "' is empty.");
+            return;
+        }
+        System.out.println("List of contents with a name  '" + name + "' :");
+        for ( String content : listContents) {
+            System.out.println("- NAME: '" + content+"'.");
+        }
+    }
 }

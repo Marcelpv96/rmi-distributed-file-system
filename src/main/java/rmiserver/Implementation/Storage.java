@@ -111,6 +111,12 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
     }
 
     @Override
+    public ArrayList<String> getNameFilter(String name) throws IOException, JSONException {
+        ArrayList<String> itemsList =  coordinatorServer.getExtensionFromName(name);
+        return itemsList;
+    }
+
+    @Override
     public void removeCallback(ClientNotifier client) throws RemoteException {
         Server.removeClientCallback(client);
     }

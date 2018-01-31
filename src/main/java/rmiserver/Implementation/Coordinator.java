@@ -54,6 +54,21 @@ public class Coordinator extends UnicastRemoteObject implements CoordinatorServe
     }
 
     @Override
+    public ArrayList<String> getExtensionFromName(String name) throws IOException, JSONException {
+        JSONArray res = ProtocolObjectRequest.GET_call_extension(webserviceAddress+"/file/name/"+name);
+        ArrayList<String> results = new ArrayList<>();
+        System.out.println("Contents associated with "+name+" : ");
+        for (int i = 0;i<res.length();i++){
+            try {
+                results.add(res.getJSONObject(i).getString("extension"));
+            } catch (Exception e) {
+                System.out.println("No user.");
+            }
+        }
+        return results;
+    }
+
+    @Override
     public ArrayList<String> getFileIdFrom(String userName) throws IOException, JSONException {
         JSONArray res = ProtocolObjectRequest.GET_call_extension(webserviceAddress+"/file/user/"+userName);
         ArrayList<String> results = new ArrayList<>();

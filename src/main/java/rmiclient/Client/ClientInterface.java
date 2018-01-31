@@ -64,6 +64,10 @@ public class ClientInterface {
             System.out.println("Gimme a user to serach attached files :");
             String user = new BufferedReader(new InputStreamReader(System.in)).readLine();
             service.getFromUser(storage, user);
+        } else if (by.equals("name")) {
+            System.out.println("Gimme a file name to search associated extensions :");
+            String name = new BufferedReader(new InputStreamReader(System.in)).readLine();
+            service.getFromName(storage, name);
         } else {
             System.out.println("Commands: <download>, <upload>, <delete>, <exit>, <list>, <modify>");
         }

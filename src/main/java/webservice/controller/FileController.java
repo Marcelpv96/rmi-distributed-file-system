@@ -3,6 +3,7 @@ package webservice.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import webservice.model.File;
+import webservice.repository.FileRepository;
 import webservice.service.FileService;
 
 import java.util.List;
