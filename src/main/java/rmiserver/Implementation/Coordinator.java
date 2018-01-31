@@ -1,5 +1,6 @@
 package rmiserver.Implementation;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import rmiprotocol.RequestProtocol.ProtocolObjectRequest;
@@ -32,30 +33,36 @@ public class Coordinator extends UnicastRemoteObject implements CoordinatorServe
     }
 
     @Override
-    public ArrayList<String> getCategory(String category){
-
-        return categories.get(category);
+    public ArrayList<String> getExtension(String extension) throws IOException, JSONException {
+        JSONArray res = ProtocolObjectRequest.GET_call_extension(webserviceAddress+"/file/extension/"+extension);
+        ArrayList<String> results = new ArrayList<>();
+        System.out.println("Contents with extension ."+extension+" : ");
+        for (int i = 0;i<res.length();i++){
+            try {
+                results.add(res.getJSONObject(i).getString("fileName"));
+            } catch (Exception e) {
+                System.out.println("No extension.");
+            }
+        }
+        return results;
     }
 
     @Override
-    public ArrayList<String> getFileFrom(String user){
+    public ArrayList<String> getFileFrom(String userName) throws IOException, JSONException {
+        JSONArray res = ProtocolObjectRequest.GET_call_extension(webserviceAddress+"/file/user/"+userName);
+        ArrayList<String> results = new ArrayList<>();
+        System.out.println("Contents from user "+userName+" : ");
+        for (int i = 0;i<res.length();i++){
+            try {
+                results.add(res.getJSONObject(i).getString("fileName"));
+            } catch (Exception e) {
+                System.out.println("No user.");
+            }
+        }
+        return results;
 
-        return users.get(user);
     }
 
-    @Override
-    public void addCategory(String extension, String title){
-            if (categories.get(extension) == null) {
-                ArrayList<String> list = new ArrayList<>();
-                list.add(title);
-                categories.put(extension, list);
-            }
-            else {
-                categories.get(extension).add(title);
-            }
-            update_FileHash(categories, "categoriesDB.data");
-
-    }
 
     @Override
     public void addFileFromUser(String user, String serial, String address, String extension, String title, Boolean isEncrypted) {
@@ -89,11 +96,6 @@ public class Coordinator extends UnicastRemoteObject implements CoordinatorServe
 
     private void update_FileHash(Map <String,?> hashMap, String file_name){
         storageWriter.updateLocalHash(hashMap, file_name);
-    }
-
-    @Override
-    public void addServer(String address, String content) throws RemoteException{
-        serverContents.put(content, address);
     }
 
     @Override

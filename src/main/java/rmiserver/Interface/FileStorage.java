@@ -20,8 +20,10 @@ public interface FileStorage extends Remote {
     void removeCallback(ClientNotifier client) throws RemoteException;
     boolean modifyObject(ObjectRequest obj, String newTitle) throws RemoteException, IOException, NoSuchAlgorithmException, NotBoundException, ClassNotFoundException, InterruptedException, JSONException;
     boolean deleteObject(ObjectRequest request) throws IOException, ClassNotFoundException, NotBoundException, NoSuchAlgorithmException, JSONException;
-    ArrayList<String> getCategoryFilter(String category) throws RemoteException;
     ObjectContent getLocalObject(String title, String extension) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException;
 
     boolean modifyObject(ObjectContent obj) throws IOException, JSONException;
+
+    ArrayList<String> getCategoryFilter(String category) throws IOException, JSONException;
+    ArrayList<String> getUserFilter(String user) throws IOException, JSONException;
 }

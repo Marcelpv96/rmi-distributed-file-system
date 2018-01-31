@@ -16,13 +16,6 @@ public class FileController {
     @RequestMapping(value = "/file", consumes = "application/json",method = RequestMethod.POST)
     public void create(@RequestBody File file){
         fileService.saveFile(file);
-
-    }
-
-    @RequestMapping(value = "/file/name/{fileName}", method = RequestMethod.GET)
-    public @ResponseBody
-    File fetchDataByFileName(@PathVariable("fileName") String fileName){
-        return fileService.fetchByFileName(fileName);
     }
 
     @RequestMapping(value = "/file/id/{id}", method = RequestMethod.GET)
@@ -31,22 +24,31 @@ public class FileController {
         return fileService.fetchById(id);
     }
 
+    @RequestMapping(value = "/file/name/{fileName}", method = RequestMethod.GET)
+    public @ResponseBody
+    List<File> fetchDataByFileName(@PathVariable("fileName") String fileName){
+        return fileService.fetchByFileName(fileName);
+    }
+
     @RequestMapping(value = "/file/extension/{extension}", method = RequestMethod.GET)
     public @ResponseBody
-    List<File> fetchDataByCategory(@PathVariable("extension") String extension){
+    List<File> fetchDataByExtension(@PathVariable("extension") String extension){
         return fileService.fetchByExtension(extension);
     }
 
-    @RequestMapping(value = "/file/encrypted/{encrypted}", method = RequestMethod.GET)
-    public @ResponseBody
-    List<File> fetchDataByEncryped(@PathVariable("encrypted") String encrypted){
-        return fileService.fetchByEncrypted(encrypted);
-    }
 
     @RequestMapping(value = "/file/user/{userName}", method = RequestMethod.GET)
     public @ResponseBody
     List<File> fetchDataByUserNAme(@PathVariable("userName") String userName){
         return fileService.fetchByUserName(userName);
+    }
+
+
+    //TODO
+    @RequestMapping(value = "/file/encrypted/{encrypted}", method = RequestMethod.GET)
+    public @ResponseBody
+    List<File> fetchDataByEncryped(@PathVariable("encrypted") String encrypted){
+        return fileService.fetchByEncrypted(encrypted);
     }
 
     @RequestMapping(value = "/file/all/", method = RequestMethod.GET)

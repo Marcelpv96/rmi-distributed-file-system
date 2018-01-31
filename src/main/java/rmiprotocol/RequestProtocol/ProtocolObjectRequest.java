@@ -46,7 +46,7 @@ public class ProtocolObjectRequest {
         }
     }
 
-    public static JSONArray GET_call_category(String url) throws JSONException, IOException {
+    public static JSONArray GET_call_extension(String url) throws JSONException, IOException {
         try {
             URL obj = new URL(url);
             HttpURLConnection httpCon = (HttpURLConnection) obj.openConnection();
@@ -65,6 +65,8 @@ public class ProtocolObjectRequest {
             return new JSONArray("[{}]");
         }
     }
+
+
 
     public static JSONObject GET_call(String url) throws JSONException, IOException {
         try {
@@ -116,7 +118,7 @@ public class ProtocolObjectRequest {
 
     }
     public static void main(String[] args) throws JSONException, IOException {
-        JSONArray res = GET_call_category("http://e451f45f.ngrok.io/server/category/1");
+        JSONArray res = GET_call_extension("http://e451f45f.ngrok.io/server/category/1");
         ArrayList<String> results = new ArrayList<>();
         for (int i = 0;i<res.length();i++){
             results.add(res.getJSONObject(i).getString("fileName"));

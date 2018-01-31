@@ -47,7 +47,7 @@ public class ClientService {
         }
     }
 
-    public void getFromCategory(FileStorage storage, String category) throws RemoteException {
+    public void getFromCategory(FileStorage storage, String category) throws IOException, JSONException {
         ArrayList<String> listContents = storage.getCategoryFilter(category);
         if (listContents == null) {
             System.out.println("List of contents with a extension  '" + category + "' is empty.");
@@ -119,6 +119,18 @@ public class ClientService {
             System.out.println("Modify succeed.");
         } else {
             System.out.println("Modify failed.");
+        }
+    }
+
+    public void getFromUser(FileStorage storage, String user) throws IOException, JSONException {
+        ArrayList<String> listContents = storage.getUserFilter(user);
+        if (listContents == null) {
+            System.out.println("List of contents from user  '" + user + "' is empty.");
+            return;
+        }
+        System.out.println("List of contents with a extension  '" + user + "' :");
+        for ( String content : listContents) {
+            System.out.println("- NAME: '" + content+"'.");
         }
     }
 }

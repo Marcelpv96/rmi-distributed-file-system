@@ -37,7 +37,7 @@ public class ClientInterface {
             modifyInterface(storage);
         }
         else{
-            System.out.println("Commands: <download>, <upload>, <delete>, <exit>, <modify>");
+            System.out.println("Commands: <download>, <upload>, <delete>, <exit>, <list>, <modify>");
         }
     }
 
@@ -49,14 +49,25 @@ public class ClientInterface {
         } else if (encryption.equals("n")) {
             service.actionAddContent(storage, false);
         } else {
-            System.out.println("Commands: <download>, <upload>, <delete>, <exit>");
+            System.out.println("Commands: <download>, <upload>, <delete>, <exit>, <list>, <modify>");
         }
     }
 
-    public void listInterface(FileStorage storage) throws IOException {
-        System.out.println("Give me a extension type and I will list all content with that extension , like for example 'pdf' :");
-        String extension = new BufferedReader(new InputStreamReader(System.in)).readLine();
-        service.getFromCategory(storage, extension);
+    public void listInterface(FileStorage storage) throws IOException, JSONException {
+        System.out.println("You can filter by <extension>, <user>, <name> :");
+        String by = new BufferedReader(new InputStreamReader(System.in)).readLine();
+        if(by.equals("extension")) {
+            System.out.println("Give me a extension type and I will list all content with that extension , like for example 'pdf' :");
+            String extension = new BufferedReader(new InputStreamReader(System.in)).readLine();
+            service.getFromCategory(storage, extension);
+        } else if (by.equals("user")) {
+            System.out.println("Gimme a user to serach attached files :");
+            String user = new BufferedReader(new InputStreamReader(System.in)).readLine();
+            service.getFromUser(storage, user);
+        } else {
+            System.out.println("Commands: <download>, <upload>, <delete>, <exit>, <list>, <modify>");
+        }
+
     }
 
     public void downloadInterface(FileStorage storage) throws IOException {
@@ -102,7 +113,7 @@ public class ClientInterface {
             } else if (encryption.equals("n")) {
                 service.modifyContent(path, extension, title, false, storage);
             } else {
-                System.out.println("Commands: <download>, <upload>, <delete>, <exit>");
+                System.out.println("Commands: <download>, <upload>, <delete>, <exit>, <list>, <modify>");
             }
         }else{
             System.out.println("Rememeber the options: ");

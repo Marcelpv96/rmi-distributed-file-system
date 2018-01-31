@@ -42,8 +42,6 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         try {
             new File(serial).mkdirs();
             writeObjectContent(obj, serial);
-            coordinatorServer.addCategory(obj.getExtension(), obj.getTitle());
-            coordinatorServer.addServer(address, serial);
             coordinatorServer.addFileFromUser(obj.getUser(), serial, address, obj.getExtension(), obj.getTitle(), obj.isEncrypted());
 
         } catch (Exception e) {
@@ -102,8 +100,14 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
     }
 
     @Override
-    public ArrayList<String> getCategoryFilter(String category) throws RemoteException {
-        ArrayList<String> itemsList =  coordinatorServer.getCategory(category);
+    public ArrayList<String> getCategoryFilter(String category) throws IOException, JSONException {
+        ArrayList<String> itemsList =  coordinatorServer.getExtension(category);
+        return itemsList;
+    }
+
+    @Override
+    public ArrayList<String> getUserFilter(String user) throws IOException, JSONException {
+        ArrayList<String> itemsList =  coordinatorServer.getFileFrom(user);
         return itemsList;
     }
 

@@ -19,8 +19,13 @@ public class FileService {
         repository.save(file);
     }
 
-    public File fetchByFileName(String fileName) {
-        return repository.findByFileName(fileName);
+    public List<File> fetchByFileName(String fileName) {
+        List<File> result = new ArrayList<>();
+
+        for(File s: repository.findByFileName(fileName)){
+            result.add(s);
+        }
+        return result;
     }
 
     public List<File> findAll(){
