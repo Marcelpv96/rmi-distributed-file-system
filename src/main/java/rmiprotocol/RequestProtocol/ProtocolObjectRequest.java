@@ -88,7 +88,7 @@ public class ProtocolObjectRequest {
         }
     }
 
-    public static JSONObject DELETE_call(String url) throws JSONException, IOException {
+    public static boolean DELETE_call(String url) throws JSONException, IOException {
         try {
             URL obj = new URL(url);
             HttpURLConnection httpCon = (HttpURLConnection) obj.openConnection();
@@ -100,11 +100,11 @@ public class ProtocolObjectRequest {
             String result = getStringFromInputStream(in);
             in.close();
             httpCon.disconnect();
-            return new JSONObject(result);
+            return true;
 
 
         } catch (Exception e) {
-            return new JSONObject("{}");
+            return false;
         }
     }
 

@@ -61,7 +61,7 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         String serverAddress = coordinatorServer.getServer(getSerialValue(title, extension));
         System.out.println("rmiserver.File deleteObject "+ title+ "." + extension + ":" + serial);
 
-        ArrayList<String> owned = coordinatorServer.getFileFrom(user);
+        ArrayList<String> owned = coordinatorServer.getFileIdFrom(user);
         try {
             if (owned.stream().anyMatch(o -> o.equals(getSerialValue(title, extension)))) {
                 System.out.println("is owner");
@@ -81,7 +81,7 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         return storage.deleteObject(request);
     }
 
-    private boolean deleteLocal(String title, String extension) throws RemoteException {
+    private boolean deleteLocal(String title, String extension) throws IOException, JSONException {
         String serial = getSerialValue(title, extension);
         System.out.println("rmiserver.File deleteLocal "+ title+ "." + extension + ":" + serial);
         File f = new File(serial + "/" + serial + "out.data");
@@ -89,8 +89,7 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         if(f.delete()){
             folder.delete();
             System.out.println(f.getName() + " is deleted!");
-            coordinatorServer.removeServer(address, serial);
-            coordinatorServer.removeCategory(extension, title);
+            coordinatorServer.deleteFile(serial);
             return true;
         }else{
             System.out.println("Delete operation is failed.");
@@ -107,7 +106,7 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
 
     @Override
     public ArrayList<String> getUserFilter(String user) throws IOException, JSONException {
-        ArrayList<String> itemsList =  coordinatorServer.getFileFrom(user);
+        ArrayList<String> itemsList =  coordinatorServer.getFileNameFrom(user);
         return itemsList;
     }
 
@@ -164,7 +163,7 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         String serverAddress = coordinatorServer.getServer(getSerialValue(title, extension));
         System.out.println("rmiserver.File modifyObject "+ title+ "." + extension + ":" + serial);
 
-        ArrayList<String> owned = coordinatorServer.getFileFrom(user);
+        ArrayList<String> owned = coordinatorServer.getFileIdFrom(user);
         try {
             if (owned.stream().anyMatch(o -> o.equals(getSerialValue(title, extension)))) {
                 System.out.println("is owner");
@@ -181,7 +180,7 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
 
 
 
-    private Boolean modifyLocalObject(String title, String extension, ObjectContent obj) throws RemoteException {
+    private Boolean modifyLocalObject(String title, String extension, ObjectContent obj) throws IOException, JSONException {
         deleteLocal(title, extension);
         String serial = getSerialValue(title, extension);
         System.out.println("Modifying Local Object Content");
@@ -262,7 +261,7 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         String serverAddress = coordinatorServer.getServer(getSerialValue(title, extension));
         System.out.println("rmiserver.File modifyObject "+ title+ "." + extension + ":" + oldSerial);
 
-        ArrayList<String> owned = coordinatorServer.getFileFrom(user);
+        ArrayList<String> owned = coordinatorServer.getFileIdFrom(user);
         try {
             if (owned.stream().anyMatch(o -> o.equals(getSerialValue(title, extension)))) {
                 System.out.println("is owner");
@@ -287,7 +286,7 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         return storage.modifyObject(obj);
     }
 
-    private boolean modifyLocal(String user, String title, String extension, String newTitle) throws IOException, ClassNotFoundException, NotBoundException, NoSuchAlgorithmException, InterruptedException {
+    private boolean modifyLocal(String user, String title, String extension, String newTitle) throws IOException, ClassNotFoundException, NotBoundException, NoSuchAlgorithmException, InterruptedException, JSONException {
         String newSerial = getSerialValue(newTitle, extension);
 
         ObjectContent obj = getLocalObject(title, extension);
