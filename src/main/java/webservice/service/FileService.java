@@ -65,5 +65,8 @@ public class FileService {
         return repository.findById(id);
     }
 
+    public void deleteFile(String id) {
+        repository.delete(repository.findById(id));
+    }
 }
 

@@ -36,13 +36,16 @@ public class FileController {
         return fileService.fetchByExtension(extension);
     }
 
-
     @RequestMapping(value = "/file/user/{userName}", method = RequestMethod.GET)
     public @ResponseBody
     List<File> fetchDataByUserNAme(@PathVariable("userName") String userName){
         return fileService.fetchByUserName(userName);
     }
 
+    @RequestMapping(value = "/file/delete/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable("id") String id){
+        fileService.deleteFile(id);
+    }
 
     //TODO
     @RequestMapping(value = "/file/encrypted/{encrypted}", method = RequestMethod.GET)

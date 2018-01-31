@@ -88,6 +88,27 @@ public class ProtocolObjectRequest {
         }
     }
 
+    public static JSONObject DELETE_call(String url) throws JSONException, IOException {
+        try {
+            URL obj = new URL(url);
+            HttpURLConnection httpCon = (HttpURLConnection) obj.openConnection();
+            httpCon.setRequestMethod("DELETE");
+            httpCon.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+            httpCon.setDoInput(true);
+
+            InputStream in = httpCon.getInputStream();
+            String result = getStringFromInputStream(in);
+            in.close();
+            httpCon.disconnect();
+            return new JSONObject(result);
+
+
+        } catch (Exception e) {
+            return new JSONObject("{}");
+        }
+    }
+
+
     // convert InputStream to String
     private static String getStringFromInputStream(InputStream is) {
         BufferedReader br = null;

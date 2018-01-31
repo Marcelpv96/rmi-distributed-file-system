@@ -11,4 +11,5 @@ public interface FileRepository extends CrudRepository<File, Long> {
     List<File> findByEncrypted(String encrypted);
     List<File> findByExtension(String extension);
     List<File> findByUserName(String userName);
+
 }
