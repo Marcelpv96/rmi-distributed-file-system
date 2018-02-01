@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.rmi.Naming;
 
+
 public class Client {
 
     private static String RMI_STORE;
@@ -16,6 +17,7 @@ public class Client {
     private static String password;
     private static AESSecurity aes;
 
+    @Enviorenment
     public static void main(String[] args) throws Exception {
 
 

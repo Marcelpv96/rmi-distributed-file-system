@@ -69,7 +69,7 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
             if (owned.stream().anyMatch(o -> o.equals(getSerialValue(title, extension)))) {
                 System.out.println("is owner");
                 if (address.equals(serverAddress)) {
-                    return deleteLocal(title, extension);
+                    return deleteLocal(title, extension, false);
                 }
                 return deleteRemote(request, serverAddress);
             }
@@ -84,15 +84,17 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         return storage.deleteObject(request);
     }
 
-    private boolean deleteLocal(String title, String extension) throws IOException, JSONException {
+    private boolean deleteLocal(String title, String extension, boolean modify) throws IOException, JSONException {
         String serial = getSerialValue(title, extension);
         System.out.println("rmiserver.File deleteLocal "+ title+ "." + extension + ":" + serial);
         File f = new File(serial + "/" + serial + "out.data");
         File folder = new File(serial);
         if(f.delete()){
             folder.delete();
-            System.out.println(f.getName() + " is deleted!");
-            coordinatorServer.deleteFile(serial);
+            if(!modify) {
+                System.out.println(f.getName() + " is deleted!");
+                coordinatorServer.deleteFile(serial);
+            }
             return true;
         }else{
             System.out.println("Delete operation is failed.");
@@ -190,7 +192,7 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
 
 
     private Boolean modifyLocalObject(String title, String extension, ObjectContent obj) throws IOException, JSONException {
-        deleteLocal(title, extension);
+        deleteLocal(title, extension, true);
         String serial = getSerialValue(title, extension);
         System.out.println("Modifying Local Object Content");
         try {
@@ -306,13 +308,13 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
             new File(newSerial).mkdirs();
             writeObjectContent(obj, newSerial);
 
-            coordinatorServer.addFileFromUser(user, newSerial, address, extension, newTitle, obj.isEncrypted());
+            coordinatorServer.modifyFile(user, newSerial, address, extension, newTitle, obj.isEncrypted());
 
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         }
 
-        return deleteLocal(title, extension);
+        return deleteLocal(title, extension, true);
 
 
     }
