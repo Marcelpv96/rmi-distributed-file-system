@@ -3,23 +3,24 @@ package webservice.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import webservice.model.User;
-import webservice.repository.UserRepository;
+import webservice.service.UserService;
 
 @RestController
 public class UserController {
 
     @Autowired
-    UserRepository userRepository;
+    private UserService userService;
 
     @RequestMapping(value = "/user", consumes = "application/json",method = RequestMethod.POST)
     public void create(@RequestBody User user){
-        userRepository.save(user);
+        userService.saveUser(user);
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/{user}", method = RequestMethod.GET)
     public @ResponseBody
-    String fetchDataByFileName(@PathVariable("user") String user){
-        return userRepository.fetchById(user);
+    User fetchDataByFileName(@PathVariable("user") String user){
+
+        return userService.fetchById(user);
     }
 
 }

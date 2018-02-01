@@ -1,5 +1,6 @@
 package rmiserver.Implementation;
 
+import exceptions.BadPassword;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,8 +11,6 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Coordinator extends UnicastRemoteObject implements CoordinatorServer {
 
@@ -110,6 +109,18 @@ public class Coordinator extends UnicastRemoteObject implements CoordinatorServe
         JSONObject res = ProtocolObjectRequest.GET_call(webserviceAddress+"/file/id/"+serial);
         // TODO maybe check if res == null
         return res.getString("address");
+    }
+
+    @Override
+    public void addUser(String user, String password) throws BadPassword, IOException, JSONException {
+        if(ProtocolObjectRequest.GET_call(webserviceAddress+"/user/"+user).length() == 0){
+            ProtocolObjectRequest.POST_call(webserviceAddress+"/user", user, password);
+        }
+        else {
+            if (!ProtocolObjectRequest.GET_call(webserviceAddress + "/user/" + user).getString("password").equals(password))
+                throw new BadPassword();
+
+        }
     }
 
 

@@ -1,5 +1,6 @@
 package rmiserver.Interface;
 
+import exceptions.BadPassword;
 import org.json.JSONException;
 import rmiprotocol.DataTransferProtocol.ObjectContent;
 import rmiprotocol.DataTransferProtocol.ObjectRequest;
@@ -28,4 +29,5 @@ public interface FileStorage extends Remote {
     ArrayList<String> getUserFilter(String user) throws IOException, JSONException;
     ArrayList<String> getNameFilter(String name) throws IOException, JSONException;
 
+    void saveUser(String user, String password) throws BadPassword, IOException, JSONException;
 }

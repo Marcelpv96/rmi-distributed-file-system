@@ -59,7 +59,6 @@ public class Server extends UnicastRemoteObject {
             {
                 e.printStackTrace();
             }
-
             CoordinatorServer storageServers = connectToMaster();
             Storage store = new Storage(storageServers, RMI_STORE);
             startRegistry();

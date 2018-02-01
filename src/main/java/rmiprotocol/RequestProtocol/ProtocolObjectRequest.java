@@ -5,6 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import webservice.model.File;
+import webservice.model.User;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -44,6 +45,34 @@ public class ProtocolObjectRequest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void POST_call(String urlString, String user, String password){
+        try {
+            URL url = new URL (urlString);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setDoOutput(true);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json");
+
+            User u = new User();
+            u.setId(user);
+            u.setPassword(password);
+
+            String input = new Gson().toJson(u);
+
+            OutputStream wr= (conn.getOutputStream());
+            wr.write(input.getBytes());
+            wr.flush();
+
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            conn.disconnect();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public static JSONArray GET_call_extension(String url) throws JSONException, IOException {

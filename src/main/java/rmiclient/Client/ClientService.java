@@ -1,11 +1,12 @@
 package rmiclient.Client;
 
+import SecurityLayer.AESSecurity;
+import SecurityLayer.CheckSum;
+import exceptions.BadPassword;
 import org.json.JSONException;
 import rmiprotocol.DataTransferProtocol.ObjectContent;
 import rmiprotocol.DataTransferProtocol.ObjectRequest;
 import rmiserver.Interface.FileStorage;
-import SecurityLayer.AESSecurity;
-import SecurityLayer.CheckSum;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,10 +21,12 @@ public class ClientService {
     private String user;
     private AESSecurity aes;
 
-    public ClientService(String user,  AESSecurity aes) {
+    public ClientService(String user,  AESSecurity aes,String password,  FileStorage storage) throws BadPassword, IOException, JSONException {
+        storage.saveUser(user, password);
         this.user = user;
         this.aes = aes;
     }
+
 
     public void getContent(FileStorage storage, String title, String extension, String savePath) throws IOException, NotBoundException, ClassNotFoundException, NoSuchAlgorithmException, JSONException {
 

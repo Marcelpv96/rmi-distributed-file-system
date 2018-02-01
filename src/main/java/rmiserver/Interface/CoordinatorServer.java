@@ -1,5 +1,6 @@
 package rmiserver.Interface;
 
+import exceptions.BadPassword;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -21,4 +22,5 @@ public interface CoordinatorServer extends Remote{
 
     void addFileFromUser(String user, String serial, String address, String extension, String title, Boolean isEncrypted)  throws  RemoteException;
 
+    void addUser(String user, String password) throws BadPassword, IOException, JSONException;
 }

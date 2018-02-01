@@ -1,17 +1,20 @@
 package rmiserver.Implementation;
 
+import SecurityLayer.CheckSum;
+import exceptions.BadPassword;
 import org.json.JSONException;
 import rmiprotocol.DataTransferProtocol.ObjectContent;
 import rmiprotocol.DataTransferProtocol.ObjectRequest;
 import rmiserver.Interface.ClientNotifier;
 import rmiserver.Interface.CoordinatorServer;
 import rmiserver.Interface.FileStorage;
-import SecurityLayer.CheckSum;
 import rmiserver.Server.Server;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.math.BigInteger;
-import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -311,6 +314,11 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         return deleteLocal(title, extension);
 
 
+    }
+
+
+    public void saveUser(String user, String password) throws BadPassword, IOException, JSONException {
+        coordinatorServer.addUser(user, password);
     }
 
 
