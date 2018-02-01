@@ -19,6 +19,12 @@ public class FileController {
         fileService.saveFile(file);
     }
 
+
+    @RequestMapping(value = "/file", consumes = "application/json",method = RequestMethod.PUT)
+    public void modify(@RequestBody File file){
+        fileService.updateFile(file);
+    }
+
     @RequestMapping(value = "/file/id/{id}", method = RequestMethod.GET)
     public @ResponseBody
     File fetchDataByID(@PathVariable("id") String id){

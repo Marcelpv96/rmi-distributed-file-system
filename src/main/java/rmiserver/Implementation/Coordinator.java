@@ -99,6 +99,18 @@ public class Coordinator extends UnicastRemoteObject implements CoordinatorServe
     }
 
     @Override
+    public void modifyFile(String user, String serial, String address, String extension, String title, boolean encrypted) {
+        ProtocolObjectRequest.PUT_call(
+                webserviceAddress+"/file",
+                user,
+                serial,
+                address,
+                extension,
+                title,
+                encrypted);
+    }
+
+    @Override
     public boolean deleteFile(String serial) throws IOException, JSONException {
         return ProtocolObjectRequest.DELETE_call(webserviceAddress+"/file/delete/"+serial);
     }

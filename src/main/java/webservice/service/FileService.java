@@ -68,5 +68,16 @@ public class FileService {
     public void deleteFile(String id) {
         repository.delete(repository.findById(id));
     }
+
+    public void updateFile(File file) {
+        File db = repository.findById(file.getId());
+        db.setAddress(file.getAddress());
+        db.setEncrypted(file.isEncrypted());
+        db.setExtension(file.getExtension());
+        db.setFileName(file.getFileName());
+        db.setId(file.getId());
+        db.setUserName(file.getUserName());
+        repository.save(db);
+    }
 }
 

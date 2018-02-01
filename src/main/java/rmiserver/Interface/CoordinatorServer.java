@@ -21,6 +21,7 @@ public interface CoordinatorServer extends Remote{
     ArrayList<String> getFileIdFrom(String userName) throws IOException, JSONException;
 
     void addFileFromUser(String user, String serial, String address, String extension, String title, Boolean isEncrypted)  throws  RemoteException;
+    void modifyFile(String user, String serial, String address, String extension, String title, boolean encrypted) throws  RemoteException;
 
     void addUser(String user, String password) throws BadPassword, IOException, JSONException;
 }

@@ -75,6 +75,37 @@ public class ProtocolObjectRequest {
 
     }
 
+    public static void PUT_call(String urlString, String user, String serial, String address, String extension, String title, Boolean isEncrypted) {
+        try {
+            URL url = new URL (urlString);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setDoOutput(true);
+            conn.setRequestMethod("PUT");
+            conn.setRequestProperty("Content-Type", "application/json");
+
+            File f = new File();
+            f.setId(serial);
+            f.setUserName(user);
+            f.setFileName(title);
+            f.setExtension(extension);
+            f.setAddress(address);
+            f.setEncrypted(isEncrypted);
+
+            String input = new Gson().toJson(f);
+
+            OutputStream wr= (conn.getOutputStream());
+            wr.write(input.getBytes());
+            wr.flush();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            conn.disconnect();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public static JSONArray GET_call_extension(String url) throws JSONException, IOException {
         try {
             URL obj = new URL(url);

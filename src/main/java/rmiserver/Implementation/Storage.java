@@ -196,7 +196,8 @@ public class Storage extends UnicastRemoteObject implements FileStorage {
         try {
             new File(serial).mkdirs();
             writeObjectContent(obj, serial);
-            coordinatorServer.addFileFromUser(obj.getUser(), serial, address, obj.getExtension(), obj.getTitle(), obj.isEncrypted());
+            coordinatorServer.modifyFile(obj.getUser(), serial, address, obj.getExtension(), obj.getTitle(), obj.isEncrypted());
+            //coordinatorServer.addFileFromUser(obj.getUser(), serial, address, obj.getExtension(), obj.getTitle(), obj.isEncrypted());
 
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());

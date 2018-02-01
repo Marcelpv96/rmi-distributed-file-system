@@ -19,7 +19,6 @@ public class UserController {
     @RequestMapping(value = "/user/{user}", method = RequestMethod.GET)
     public @ResponseBody
     User fetchDataByFileName(@PathVariable("user") String user){
-
         return userService.fetchById(user);
     }
 
